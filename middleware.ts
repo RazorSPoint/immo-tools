@@ -10,6 +10,7 @@ export async function middleware(request: NextRequest) {
   const isProtectedRoute = pathname.startsWith(protectedRoutes);
 
   if (isProtectedRoute && !sessionCookie) {
+    console.log(`🔒 Redirecting to login: ${pathname} (no session cookie)`);
     return NextResponse.redirect(new URL('/sign-in', request.url));
   }
 
@@ -32,7 +33,8 @@ export async function middleware(request: NextRequest) {
         expires: expiresInOneDay
       });
     } catch (error) {
-      console.error('Error updating session:', error);
+      console.error('🚨 Error updating session:', error);
+      console.log(`🔒 Session invalid for ${pathname}, redirecting to login`);
       res.cookies.delete('session');
       if (isProtectedRoute) {
         return NextResponse.redirect(new URL('/sign-in', request.url));

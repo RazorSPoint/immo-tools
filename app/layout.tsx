@@ -5,8 +5,8 @@ import { getUser, getTeamForUser } from '@/lib/db/queries';
 import { SWRConfig } from 'swr';
 
 export const metadata: Metadata = {
-  title: 'Next.js SaaS Starter',
-  description: 'Get started quickly with Next.js, Postgres, and Stripe.'
+  title: 'ImmoTools - Real Estate Business Tools',
+  description: 'Professional tools for real estate business management and compliance.'
 };
 
 export const viewport: Viewport = {
