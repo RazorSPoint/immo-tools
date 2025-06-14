@@ -1,0 +1,542 @@
+Besuch am,Uhrzeit,Ort,Strasse,PLZ,Distanz_km
+01.02.2024,09:00:00,Waldblick,L 76,15831,0.000
+01.02.2024,09:00:00,Waldblick,Trebbiner Straße,15831,0.550
+01.02.2024,09:00:00,Waldblick,Maxim-Gorki-Straße,15831,0.124
+01.02.2024,09:00:00,Waldblick,Trebbiner Straße,15831,0.145
+01.02.2024,09:00:00,Waldblick,Berliner Straße,15831,0.503
+01.02.2024,09:55:52,Waldblick,Luisenstraße,15831,0.428
+01.02.2024,11:00:00,Waldblick,Trebbiner Straße,15831,0.554
+01.02.2024,11:00:00,Waldblick,L 76,15831,0.232
+01.05.2024,12:00:00,Waldblick,L 76,15831,0.186
+01.05.2024,12:00:00,Waldblick,Berliner Straße,15831,0.237
+01.05.2024,12:00:00,Waldblick,Ulmenhof,15831,0.082
+01.05.2024,12:00:00,Waldblick,Kastanienhof,15831,0.343
+01.05.2024,12:00:00,Waldblick,Kirschenhof,15831,0.396
+01.05.2024,12:18:00,Waldblick,Kirschenhof,15831,0.048
+01.05.2024,14:00:00,Waldblick,Berliner Straße,15831,0.068
+01.05.2024,14:00:00,Waldblick,Trebbiner Straße,15831,0.229
+01.05.2024,14:36:58,Waldblick,Trebbiner Straße,15831,0.101
+01.11.2024,12:24:24,Waldblick,Kirschenhof,15831,0.109
+01.11.2024,13:00:00,Waldblick,L 76,15831,0.244
+01.11.2024,13:00:00,Waldblick,Kirschenhof,15831,0.192
+01.11.2024,13:00:00,Waldblick,Berliner Straße,15831,0.100
+01.11.2024,13:00:00,Waldblick,Trebbiner Straße,15831,0.255
+01.11.2024,13:00:00,Waldblick,Luisenstraße,15831,0.145
+01.11.2024,13:00:00,Waldblick,Trebbiner Straße,15831,0.130
+01.11.2024,13:00:00,Waldblick,L 76,15831,0.702
+01.11.2024,13:41:50,Waldblick,Berliner Straße,15831,0.269
+02.09.2024,07:42:46,Waldblick,Luisenstraße,15831,0.421
+02.09.2024,08:00:00,Waldblick,L 76,15831,0.603
+02.09.2024,08:00:00,Waldblick,Trebbiner Straße,15831,0.562
+02.09.2024,08:00:00,Waldblick,Luisenstraße,15831,0.125
+02.09.2024,08:00:00,Waldblick,Trebbiner Straße,15831,0.358
+02.09.2024,08:00:00,Waldblick,Kastanienhof,15831,0.197
+02.09.2024,08:45:02,Waldblick,Trebbiner Straße,15831,0.533
+02.09.2024,12:00:00,Waldblick,Marillenhof,15831,0.456
+02.09.2024,12:00:00,Waldblick,Trebbiner Straße,15831,0.226
+04.03.2024,11:00:00,Waldblick,Ulmenhof,15831,0.171
+04.03.2024,15:00:00,Waldblick,Kirschenhof,15831,0.084
+04.03.2024,15:00:00,Waldblick,Marktplatz,15831,0.230
+04.03.2024,15:00:00,Waldblick,Marktplatz,15831,0.055
+04.03.2024,15:00:00,Mahlow,Ibsenstraße,15831,1.234
+04.03.2024,15:00:00,Mahlow,Am Lückefeld,15831,0.872
+04.03.2024,15:00:00,Mahlow,Am Lückefeld,15831,0.015
+04.03.2024,15:00:00,Mahlow,Am Lückefeld,15831,0.037
+04.03.2024,15:00:00,Glasow,Krügers Land,15831,0.468
+04.03.2024,15:00:00,Mahlow,Virchowstraße,15831,0.878
+04.03.2024,15:00:00,Waldblick,Maxim-Gorki-Straße,15831,0.411
+04.03.2024,15:00:00,Waldblick,Marktplatz,15831,0.607
+04.03.2024,15:56:46,Waldblick,Ulmenhof,15831,0.202
+04.03.2024,16:48:01,Waldblick,Kirschenhof,15831,0.093
+04.03.2024,17:00:00,Waldblick,Ulmenhof,15831,0.067
+04.03.2024,17:00:00,Waldblick,Kirschenhof,15831,0.071
+04.03.2024,17:00:00,Waldblick,Kirschenhof,15831,0.022
+04.05.2024,14:00:00,Waldblick,L 76,15831,0.155
+04.05.2024,14:00:00,Waldblick,Kirschenhof,15831,0.229
+04.05.2024,14:50:05,Waldblick,Berliner Straße,15831,0.054
+04.05.2024,16:00:00,Waldblick,Berliner Straße,15831,0.041
+04.05.2024,16:00:00,Waldblick,L 76,15831,0.303
+04.05.2024,16:00:00,Mahlow,B 96,15831,1.393
+04.05.2024,16:00:00,Glasow,B 96,15831,0.323
+04.05.2024,16:00:00,Mahlow,Am Lückefeld,15831,0.264
+04.05.2024,16:00:00,Großziethen,B 96,15831,0.348
+05.02.2024,12:20:50,Mahlow,Am Lückefeld,15831,0.453
+05.02.2024,13:00:00,Mahlow,Neue Straße,15831,0.651
+05.02.2024,13:00:00,Mahlow,Am Lückefeld,15831,0.634
+05.02.2024,13:00:00,Mahlow,Birkenstraße,15831,0.752
+05.02.2024,13:00:00,Waldblick,Ulmenhof,15831,1.230
+05.02.2024,13:00:00,Waldblick,Marktplatz,15831,0.196
+05.02.2024,13:00:00,Waldblick,Kirschenhof,15831,0.258
+05.02.2024,13:19:13,Mahlow,Am Lückefeld,15831,1.884
+05.02.2024,15:00:00,Waldblick,Ulmenhof,15831,1.936
+05.02.2024,15:00:00,Waldblick,Luisenstraße,15831,0.444
+05.02.2024,17:00:00,Waldblick,Luisenstraße,15831,0.101
+05.02.2024,17:00:00,Waldblick,Kirschenhof,15831,0.483
+05.02.2024,19:00:00,Waldblick,Kirschenhof,15831,0.010
+05.02.2024,19:00:00,Waldblick,Ulmenhof,15831,0.058
+05.11.2024,08:59:48,Waldblick,Berliner Straße,15831,0.128
+05.11.2024,09:00:00,Waldblick,Trebbiner Straße,15831,0.230
+05.11.2024,09:00:00,Waldblick,Buchenhof,15831,0.256
+05.11.2024,09:00:00,Waldblick,Vivaldistraße,15831,0.793
+05.11.2024,09:00:00,Waldblick,Berliner Straße,15831,0.738
+05.11.2024,11:00:00,Waldblick,Marktplatz,15831,0.111
+05.11.2024,11:00:00,Waldblick,Herbert-Tschäpe-Straße,15831,0.541
+05.11.2024,11:00:00,Waldblick,Am Bahnhof,15831,0.121
+05.11.2024,11:00:00,Waldblick,Herbert-Tschäpe-Straße,15831,0.200
+05.11.2024,11:00:00,Waldblick,Herbert-Tschäpe-Straße,15831,0.324
+05.11.2024,11:00:00,Waldblick,Berliner Straße,15831,0.234
+05.11.2024,11:00:00,Waldblick,L 76,15831,0.302
+05.11.2024,12:16:54,Waldblick,Herbert-Tschäpe-Straße,15831,0.735
+07.02.2024,09:00:00,Waldblick,Kastanienhof,15831,0.546
+07.02.2024,13:00:00,Waldblick,Kastanienhof,15831,0.009
+07.02.2024,13:00:00,Waldblick,Weidenhof,15831,0.242
+07.02.2024,13:00:00,Waldblick,Stefan-Zweig-Straße,15831,0.285
+07.02.2024,13:00:00,Waldblick,Stefan-Zweig-Straße,15831,0.466
+07.02.2024,13:00:00,Waldblick,Berliner Straße,15831,0.852
+07.02.2024,13:00:00,Waldblick,Mahlower Dorfstraße,15831,0.257
+07.02.2024,13:00:00,Waldblick,L 76,15831,0.392
+07.02.2024,13:00:00,Waldblick,Berliner Straße,15831,0.672
+07.02.2024,13:00:00,Waldblick,L 76,15831,0.326
+07.02.2024,13:00:00,Mahlow,Am Lückefeld,15831,2.880
+07.02.2024,13:00:00,Mahlow,Am Lückefeld,15831,0.530
+07.02.2024,13:00:00,Mahlow,Am Lückefeld,15831,0.108
+07.02.2024,13:00:00,Mahlow,Ernst-Thälmann-Straße,15831,0.709
+07.02.2024,13:00:00,Mahlow,Virchowstraße,15831,0.604
+07.02.2024,13:00:00,Waldblick,Bodelschwinghstraße,15831,0.274
+07.02.2024,13:00:00,Waldblick,Lindenhof,15831,0.239
+07.02.2024,13:00:00,Waldblick,Ulmenhof,15831,0.093
+07.02.2024,14:05:31,Mahlow,Am Lückefeld,15831,1.759
+07.02.2024,15:00:00,Waldblick,Kirschenhof,15831,1.715
+07.06.2024,14:00:00,Waldblick,Berliner Straße,15831,0.065
+07.06.2024,14:00:00,Waldblick,L 76,15831,0.217
+07.06.2024,14:00:00,Waldblick,Ulmenhof,15831,0.193
+07.06.2024,14:00:00,Waldblick,Berliner Straße,15831,0.181
+07.06.2024,15:58:16,Waldblick,Birkenhof,15831,0.142
+07.06.2024,16:00:00,Waldblick,Berliner Straße,15831,0.976
+07.06.2024,16:00:00,Waldblick,Lichtenrader Straße,15831,0.211
+07.08.2024,17:53:34,Waldblick,Trebbiner Straße,15831,1.142
+07.08.2024,18:00:00,Waldblick,L 76,15831,0.537
+07.08.2024,18:00:00,Waldblick,Trebbiner Straße,15831,0.220
+07.08.2024,18:00:00,Waldblick,Luisenstraße,15831,0.464
+07.08.2024,18:00:00,Waldblick,Luisenstraße,15831,0.038
+07.08.2024,18:00:00,Waldblick,Kirschenhof,15831,0.481
+07.08.2024,20:00:00,Waldblick,Kirschenhof,15831,0.005
+07.08.2024,20:00:00,Waldblick,Kirschenhof,15831,0.004
+08.02.2024,10:25:08,Waldblick,Trebbiner Straße,15831,0.045
+08.02.2024,11:00:00,Waldblick,L 76,15831,0.139
+08.02.2024,11:00:00,Waldblick,Trebbiner Straße,15831,0.150
+08.02.2024,11:00:00,Waldblick,Ulmenhof,15831,0.117
+08.02.2024,11:00:00,Waldblick,Marktplatz,15831,0.134
+08.02.2024,11:00:00,Waldblick,Ulmenhof,15831,0.149
+08.02.2024,11:19:42,Waldblick,Ulmenhof,15831,0.006
+08.02.2024,11:19:42,Waldblick,Marillenhof,15831,0.074
+08.02.2024,11:21:05,Waldblick,Marktplatz,15831,0.108
+08.02.2024,11:38:34,Waldblick,Marillenhof,15831,0.090
+08.02.2024,11:38:34,Waldblick,Ulmenhof,15831,0.077
+08.02.2024,13:00:00,Waldblick,Kirschenhof,15831,0.073
+08.02.2024,13:00:00,Waldblick,Trebbiner Straße,15831,0.407
+08.02.2024,13:00:00,Waldblick,Maxim-Gorki-Straße,15831,0.123
+08.02.2024,13:00:00,Waldblick,Berliner Straße,15831,0.431
+08.02.2024,14:42:01,Waldblick,Ulmenhof,15831,0.089
+08.02.2024,14:42:01,Waldblick,Luisenstraße,15831,0.483
+08.02.2024,14:52:20,Waldblick,Trebbiner Straße,15831,0.074
+08.02.2024,17:00:00,Waldblick,Birkenhof,15831,0.439
+08.02.2024,17:00:00,Waldblick,Trebbiner Straße,15831,0.227
+08.02.2024,18:04:21,Waldblick,Trebbiner Straße,15831,0.143
+08.08.2024,10:00:00,Waldblick,Kastanienhof,15831,0.127
+08.08.2024,10:00:00,Glasow,B 96,15831,1.568
+08.08.2024,10:00:00,Glasow,Krügers Land,15831,0.282
+08.08.2024,10:00:00,Mahlow,Am Lückefeld,15831,0.082
+08.08.2024,11:28:24,Waldblick,Kastanienhof,15831,1.794
+08.08.2024,11:28:24,Mahlow,Am Lückefeld,15831,1.814
+08.08.2024,12:00:00,Glasow,B 96,15831,0.208
+08.08.2024,12:00:00,Mahlow,Am Lückefeld,15831,0.358
+08.08.2024,12:00:00,Mahlow,Am Lückefeld,15831,0.235
+08.08.2024,12:00:00,Mahlow,Am Lückefeld,15831,0.020
+08.08.2024,12:00:00,Mahlow,Am Lückefeld,15831,0.091
+08.08.2024,12:00:00,Mahlow,Am Lückefeld,15831,0.395
+08.08.2024,12:00:00,Mahlow,Am Lückefeld,15831,0.404
+08.08.2024,14:00:00,Mahlow,Am Lückefeld,15831,0.243
+08.08.2024,14:00:00,Glasow,Krügers Land,15831,0.088
+08.08.2024,14:00:00,Glasow,Krügers Land,15831,0.271
+08.08.2024,14:00:00,Mahlow,Virchowstraße,15831,1.256
+08.08.2024,14:00:00,Waldblick,Berliner Straße,15831,0.269
+08.08.2024,14:00:00,Waldblick,Kastanienhof,15831,0.105
+08.08.2024,20:00:00,Waldblick,Kastanienhof,15831,0.057
+08.08.2024,20:00:00,Waldblick,Maxim-Gorki-Straße,15831,0.366
+08.08.2024,20:00:00,Glasow,Krügers Land,15831,1.455
+08.08.2024,20:00:00,Mahlow,Am Lückefeld,15831,0.238
+08.08.2024,20:00:00,Glasow,Krügers Land,15831,0.245
+08.08.2024,20:00:00,Mahlow,Virchowstraße,15831,1.333
+08.08.2024,20:00:00,Waldblick,Berliner Straße,15831,0.316
+08.08.2024,20:00:00,Waldblick,Lindenhof,15831,0.168
+08.08.2024,20:15:04,Waldblick,Berliner Straße,15831,0.170
+08.08.2024,20:38:20,Mahlow,Am Lückefeld,15831,1.777
+08.08.2024,20:38:20,Waldblick,Kirschenhof,15831,1.804
+09.08.2024,04:00:00,Waldblick,Kirschenhof,15831,0.044
+09.08.2024,10:00:00,Waldblick,Trebbiner Straße,15831,0.366
+09.08.2024,10:00:00,Waldblick,Kirschenhof,15831,0.358
+09.08.2024,10:00:00,Waldblick,Berliner Straße,15831,0.076
+09.08.2024,11:37:23,Waldblick,Buchenhof,15831,0.180
+09.08.2024,11:37:23,Waldblick,Ulmenhof,15831,0.134
+09.08.2024,12:00:00,Waldblick,Ulmenhof,15831,0.002
+09.08.2024,12:00:00,Waldblick,Kirschenhof,15831,0.083
+09.08.2024,12:00:00,Waldblick,Kastanienhof,15831,0.071
+09.08.2024,12:00:00,Waldblick,Bodelschwinghstraße,15831,0.362
+09.08.2024,12:00:00,Mahlow,Ernst-Thälmann-Straße,15831,0.641
+09.08.2024,12:00:00,Glasow,Krügers Land,15831,0.602
+09.08.2024,12:00:00,Glasow,Krügers Land,15831,0.349
+09.08.2024,12:00:00,Mahlow,Am Lückefeld,15831,0.047
+09.08.2024,12:00:00,Mahlow,Am Lückefeld,15831,0.092
+09.08.2024,13:02:25,Waldblick,Kirschenhof,15831,1.785
+09.08.2024,13:02:25,Mahlow,Am Lückefeld,15831,1.712
+09.08.2024,13:07:19,Mahlow,Am Lückefeld,15831,0.079
+09.08.2024,13:50:50,Mahlow,Am Lückefeld,15831,0.082
+09.08.2024,14:00:00,Mahlow,Am Lückefeld,15831,0.043
+09.08.2024,14:00:00,Glasow,B 96,15831,0.273
+10.02.2024,09:00:00,Waldblick,Kirschenhof,15831,1.551
+10.02.2024,09:00:00,Waldblick,Im Roten Dudel,15831,0.716
+10.02.2024,09:55:22,Waldblick,Kirschenhof,15831,0.699
+10.02.2024,11:00:00,Waldblick,N/A,15831,0.658
+10.02.2024,11:00:00,Waldblick,Kirschenhof,15831,0.654
+10.02.2024,13:00:00,Waldblick,Kirschenhof,15831,0.007
+10.02.2024,13:00:00,Mahlow,Ernst-Thälmann-Straße,15831,1.011
+10.02.2024,13:00:00,Mahlow,Am Lückefeld,15831,0.940
+10.02.2024,13:00:00,Waldblick,Maxim-Gorki-Straße,15831,1.581
+10.02.2024,13:00:00,Waldblick,Ulmenhof,15831,0.353
+10.02.2024,17:00:00,Waldblick,Kirschenhof,15831,0.054
+10.02.2024,17:00:00,Waldblick,Eichenhof,15831,0.336
+10.02.2024,17:00:00,Waldblick,Ulmenhof,15831,0.239
+10.02.2024,17:00:00,Waldblick,Kirschenhof,15831,0.097
+10.02.2024,18:54:47,Waldblick,Herbert-Tschäpe-Straße,15831,0.305
+10.02.2024,19:00:00,Waldblick,Herbert-Tschäpe-Straße,15831,0.032
+10.02.2024,19:00:00,Waldblick,Herbert-Tschäpe-Straße,15831,0.308
+10.02.2024,19:00:00,Waldblick,Kirschenhof,15831,0.488
+10.02.2024,19:26:22,Waldblick,Herbert-Tschäpe-Straße,15831,0.487
+10.02.2024,20:22:16,Waldblick,Herbert-Tschäpe-Straße,15831,0.007
+10.02.2024,21:00:00,Waldblick,Kirschenhof,15831,0.492
+10.03.2024,09:00:00,Waldblick,L 76,15831,0.171
+10.03.2024,09:00:00,Waldblick,Berliner Straße,15831,0.240
+10.03.2024,09:00:00,Waldblick,Ulmenhof,15831,0.085
+10.03.2024,10:00:13,Waldblick,Kirschenhof,15831,0.023
+10.03.2024,11:00:00,Waldblick,Trebbiner Straße,15831,0.129
+10.03.2024,11:34:54,Waldblick,Berliner Straße,15831,0.159
+11.02.2024,11:00:00,Waldblick,Birkenhof,15831,0.153
+11.02.2024,11:00:00,Waldblick,L 76,15831,0.256
+11.02.2024,11:53:20,Waldblick,Berliner Straße,15831,0.250
+11.03.2024,09:00:00,Waldblick,L 76,15831,0.270
+11.03.2024,09:00:00,Waldblick,Trebbiner Straße,15831,0.229
+11.03.2024,09:00:00,Waldblick,Kirschenhof,15831,0.078
+11.03.2024,09:00:00,Waldblick,L 76,15831,0.383
+11.03.2024,11:00:00,Waldblick,Kirschenhof,15831,0.386
+11.03.2024,11:00:00,Waldblick,Kirschenhof,15831,0.034
+12.02.2024,07:00:00,Mahlow,Am Lückefeld,15831,1.854
+12.02.2024,07:00:00,Mahlow,Am Lückefeld,15831,0.048
+12.02.2024,07:00:00,Glasow,Krügers Land,15831,0.339
+12.02.2024,07:00:00,Waldblick,Ulmenhof,15831,1.827
+12.02.2024,07:02:05,Mahlow,Am Lückefeld,15831,1.852
+12.02.2024,08:00:21,Waldblick,Kirschenhof,15831,1.776
+12.02.2024,08:00:21,Waldblick,Kirschenhof,15831,0.008
+12.02.2024,11:00:00,Waldblick,Bodelschwinghstraße,15831,0.206
+12.02.2024,11:00:00,Mahlow,Am Lückefeld,15831,1.639
+12.02.2024,11:00:00,Glasow,Krügers Land,15831,0.418
+12.02.2024,11:00:00,Waldblick,Kirschenhof,15831,1.734
+12.02.2024,15:00:00,Waldblick,Trebbiner Straße,15831,0.294
+12.02.2024,17:00:00,Waldblick,Kirschenhof,15831,0.284
+12.02.2024,17:00:00,Mahlow,Poststraße,15831,0.746
+12.02.2024,17:00:00,Waldblick,Berliner Straße,15831,0.686
+12.02.2024,17:00:00,Waldblick,Berliner Straße,15831,0.530
+12.02.2024,17:00:00,Waldblick,Stefan-Zweig-Straße,15831,0.657
+12.02.2024,17:00:00,Mahlow,Vivaldistraße,15831,0.402
+12.02.2024,17:00:00,Mahlow,Berliner Damm,15831,0.247
+12.02.2024,17:00:00,Mahlow,Berliner Damm,15831,0.187
+12.02.2024,17:00:00,Glasow,Lindenring,15831,0.416
+12.02.2024,17:00:00,Mahlow,Berliner Damm,15831,0.508
+12.02.2024,18:30:12,Waldblick,Berliner Straße,15831,1.431
+12.02.2024,19:00:00,Mahlow,Berliner Damm,15831,1.224
+12.02.2024,19:00:00,Mahlow,Beethovenstraße,15831,0.468
+12.02.2024,19:00:00,Waldblick,Lichtenrader Straße,15831,1.156
+14.04.2024,14:00:00,Waldblick,L 76,15831,1.158
+14.04.2024,14:00:00,Waldblick,Trebbiner Straße,15831,0.201
+14.04.2024,14:00:00,Waldblick,Kirschenhof,15831,0.084
+14.04.2024,14:00:00,Waldblick,Trebbiner Straße,15831,0.230
+14.04.2024,14:00:00,Waldblick,Luisenstraße,15831,0.243
+14.04.2024,14:00:00,Waldblick,Berliner Straße,15831,0.403
+14.04.2024,15:06:38,Waldblick,Kirschenhof,15831,0.082
+14.04.2024,15:06:38,Waldblick,Birkenhof,15831,0.084
+14.04.2024,16:00:00,Waldblick,Berliner Straße,15831,0.034
+14.04.2024,16:00:00,Waldblick,Trebbiner Straße,15831,0.218
+14.04.2024,16:59:30,Waldblick,Berliner Straße,15831,0.179
+14.09.2024,16:00:00,Waldblick,L 76,15831,0.259
+14.09.2024,16:00:00,Waldblick,Trebbiner Straße,15831,0.216
+14.09.2024,16:00:00,Waldblick,Ulmenhof,15831,0.108
+14.09.2024,16:00:00,Waldblick,Trebbiner Straße,15831,0.126
+14.09.2024,16:26:33,Waldblick,Kirschenhof,15831,0.090
+14.09.2024,17:15:19,Waldblick,Trebbiner Straße,15831,0.169
+14.11.2024,15:00:00,Waldblick,L 76,15831,0.075
+14.11.2024,15:00:00,Waldblick,Berliner Straße,15831,0.265
+14.11.2024,15:00:00,Waldblick,Berliner Straße,15831,0.226
+14.11.2024,15:00:00,Waldblick,Birkenhof,15831,0.203
+14.11.2024,15:35:40,Waldblick,Berliner Straße,15831,0.127
+14.11.2024,17:00:00,Waldblick,Berliner Straße,15831,0.031
+14.11.2024,17:00:00,Waldblick,Bodelschwinghstraße,15831,0.272
+14.11.2024,17:00:00,Mahlow,Virchowstraße,15831,0.717
+14.11.2024,17:00:00,Glasow,Krügers Land,15831,0.552
+14.11.2024,17:00:00,Glasow,Krügers Land,15831,0.379
+14.11.2024,17:00:00,Mahlow,Am Lückefeld,15831,0.117
+14.11.2024,17:00:00,Mahlow,Am Lückefeld,15831,0.066
+14.11.2024,17:18:00,Waldblick,Ulmenhof,15831,1.867
+15.01.2024,18:33:35,Waldblick,Kirschenhof,15831,0.096
+15.01.2024,19:00:00,Waldblick,L 76,15831,0.405
+15.01.2024,19:00:00,Waldblick,Ulmenhof,15831,0.416
+15.01.2024,19:19:07,Waldblick,Kirschenhof,15831,0.057
+15.02.2024,08:06:32,Waldblick,Kirschenhof,15831,0.010
+15.02.2024,09:00:00,Waldblick,Kirschenhof,15831,0.017
+15.02.2024,13:00:00,Waldblick,Kirschenhof,15831,0.017
+15.02.2024,17:00:00,Waldblick,Kirschenhof,15831,0.013
+15.02.2024,17:00:00,Waldblick,Trebbiner Straße,15831,0.176
+15.02.2024,17:00:00,Waldblick,Am Bahnhof,15831,0.476
+15.02.2024,19:00:00,Waldblick,Ladestraße,15831,0.066
+16.03.2024,08:49:41,Waldblick,Marillenhof,15831,0.622
+16.03.2024,09:00:00,Waldblick,L 76,15831,0.240
+16.03.2024,09:00:00,Waldblick,Kirschenhof,15831,0.209
+16.03.2024,09:00:00,Waldblick,Ahornhof,15831,0.148
+16.03.2024,09:00:00,Waldblick,Herbert-Tschäpe-Straße,15831,0.101
+16.03.2024,09:00:00,Waldblick,Trebbiner Straße,15831,0.302
+16.03.2024,09:00:00,Waldblick,Herbert-Tschäpe-Straße,15831,0.225
+16.03.2024,09:32:36,Waldblick,Berliner Straße,15831,0.102
+16.03.2024,09:35:47,Waldblick,Herbert-Tschäpe-Straße,15831,0.021
+16.03.2024,11:00:00,Waldblick,Am Sportplatz,15831,0.723
+16.03.2024,11:00:00,Waldblick,Weidenhof,15831,0.737
+16.03.2024,11:00:00,Waldblick,Weidenhof,15831,0.043
+16.03.2024,11:00:00,Waldblick,Ulmenhof,15831,0.243
+16.03.2024,11:00:00,Waldblick,Kirschenhof,15831,0.006
+16.03.2024,11:00:00,Waldblick,Trebbiner Straße,15831,0.105
+16.03.2024,11:00:00,Waldblick,L 76,15831,0.204
+16.03.2024,11:51:44,Waldblick,Ulmenhof,15831,0.181
+16.03.2024,12:26:25,Waldblick,Berliner Straße,15831,0.128
+20.01.2024,09:50:02,Waldblick,Kirschenhof,15831,0.071
+20.01.2024,13:00:00,Waldblick,Kastanienhof,15831,0.085
+20.01.2024,13:00:00,Mahlow,Virchowstraße,15831,0.759
+20.01.2024,13:00:00,Mahlow,Am Lückefeld,15831,0.951
+20.02.2024,07:00:00,Waldblick,Kirschenhof,15831,1.642
+20.02.2024,11:00:00,Waldblick,Trebbiner Straße,15831,0.283
+20.02.2024,11:00:00,Waldblick,Kirschenhof,15831,0.330
+20.02.2024,11:00:00,Waldblick,Kirschenhof,15831,0.008
+20.02.2024,11:00:00,Waldblick,Kirschenhof,15831,0.000
+20.02.2024,11:00:00,Mahlow,Am Lückefeld,15831,1.727
+20.02.2024,12:45:14,Mahlow,Am Lückefeld,15831,0.131
+20.02.2024,13:00:00,Waldblick,Kirschenhof,15831,1.832
+20.02.2024,13:00:00,Waldblick,L 76,15831,0.456
+20.02.2024,13:00:00,Waldblick,Kirschenhof,15831,0.458
+20.02.2024,17:00:00,Waldblick,Kirschenhof,15831,0.007
+20.02.2024,17:00:00,Waldblick,Trebbiner Straße,15831,0.397
+20.02.2024,17:00:00,Waldblick,Luisenstraße,15831,0.097
+20.02.2024,17:00:00,Waldblick,Trebbiner Straße,15831,0.114
+20.02.2024,17:00:00,Waldblick,Kirschenhof,15831,0.393
+20.02.2024,17:00:00,Waldblick,Kirschenhof,15831,0.004
+20.02.2024,17:58:41,Waldblick,Trebbiner Straße,15831,0.226
+20.02.2024,19:00:00,Waldblick,L 76,15831,0.610
+20.02.2024,19:00:00,Waldblick,Kirschenhof,15831,0.440
+20.02.2024,19:00:00,Waldblick,Kirschenhof,15831,0.002
+20.02.2024,19:00:00,Waldblick,Kirschenhof,15831,0.003
+20.02.2024,21:00:00,Waldblick,Kirschenhof,15831,0.005
+20.02.2024,21:00:00,Waldblick,Kirschenhof,15831,0.012
+20.02.2024,21:00:00,Waldblick,Kirschenhof,15831,0.057
+20.02.2024,21:00:00,Waldblick,Luisenstraße,15831,0.461
+20.02.2024,21:00:00,Waldblick,Kirschenhof,15831,0.485
+20.02.2024,23:00:00,Waldblick,Kirschenhof,15831,0.004
+21.02.2024,09:00:00,Waldblick,Kirschenhof,15831,0.004
+21.02.2024,11:00:00,Waldblick,Kirschenhof,15831,0.003
+21.02.2024,13:00:00,Waldblick,Kirschenhof,15831,0.010
+21.02.2024,13:00:00,Waldblick,Herbert-Tschäpe-Straße,15831,0.238
+21.02.2024,13:00:00,Waldblick,Herbert-Tschäpe-Straße,15831,0.516
+21.02.2024,13:00:00,Waldblick,Stefan-Zweig-Straße,15831,0.253
+21.02.2024,14:31:59,Waldblick,Ladestraße,15831,0.279
+21.02.2024,14:31:59,Waldblick,Ladestraße,15831,0.135
+21.04.2024,14:00:00,Waldblick,L 76,15831,0.749
+21.04.2024,14:00:00,Waldblick,Kirschenhof,15831,0.208
+21.04.2024,14:00:00,Waldblick,Ulmenhof,15831,0.045
+21.04.2024,14:43:14,Waldblick,Trebbiner Straße,15831,0.124
+21.04.2024,15:21:16,Waldblick,Ulmenhof,15831,0.112
+21.04.2024,15:21:16,Waldblick,Ulmenhof,15831,0.011
+21.04.2024,16:00:00,Waldblick,Herbert-Tschäpe-Straße,15831,0.220
+21.04.2024,16:00:00,Waldblick,Berliner Straße,15831,0.030
+21.04.2024,16:00:00,Waldblick,Luisenstraße,15831,0.412
+21.04.2024,16:00:00,Waldblick,Luisenstraße,15831,0.054
+21.04.2024,17:10:56,Waldblick,Herbert-Tschäpe-Straße,15831,0.386
+21.04.2024,17:10:56,Waldblick,Luisenstraße,15831,0.396
+21.04.2024,18:00:00,Waldblick,Luisenstraße,15831,0.017
+21.04.2024,18:00:00,Waldblick,Berliner Straße,15831,0.451
+21.04.2024,18:00:00,Waldblick,Trebbiner Straße,15831,0.279
+21.06.2024,13:43:56,Waldblick,Am Bahnhof,15831,0.603
+21.06.2024,14:00:00,Waldblick,Trebbiner Straße,15831,0.751
+21.06.2024,14:00:00,Waldblick,Trebbiner Straße,15831,0.710
+21.06.2024,14:00:00,Waldblick,Am Bahnhof,15831,0.063
+21.06.2024,14:00:00,Glasow,Albrechtstraße,15831,0.307
+21.06.2024,14:00:00,Mahlow,Ernst-Thälmann-Straße,15831,0.241
+21.06.2024,14:00:00,Mahlow,Immanuel-Kant-Straße,15831,0.252
+21.06.2024,14:34:24,Waldblick,Am Bahnhof,15831,0.804
+21.06.2024,14:41:42,Waldblick,Albrechtstraße,15831,0.095
+21.06.2024,14:41:42,Mahlow,Immanuel-Kant-Straße,15831,0.630
+21.06.2024,14:43:06,Mahlow,Immanuel-Kant-Straße,15831,0.064
+21.06.2024,16:00:00,Mahlow,Ernst-Thälmann-Straße,15831,0.121
+21.06.2024,18:00:00,Mahlow,Immanuel-Kant-Straße,15831,0.145
+21.06.2024,18:00:00,Glasow,Ibsenstraße,15831,0.232
+21.06.2024,18:00:00,Glasow,Krügers Land,15831,0.674
+21.06.2024,18:00:00,Glasow,Krügers Land,15831,0.230
+21.06.2024,18:00:00,Glasow,B 96,15831,0.321
+21.06.2024,18:00:00,Mahlow,Am Lückefeld,15831,0.334
+21.06.2024,18:00:00,Glasow,Krügers Land,15831,0.132
+21.06.2024,18:00:00,Waldblick,Ulmenhof,15831,1.849
+21.06.2024,18:00:00,Waldblick,Trebbiner Straße,15831,0.230
+21.06.2024,18:00:00,Waldblick,Luisenstraße,15831,0.280
+21.06.2024,18:00:00,Waldblick,Trebbiner Straße,15831,0.141
+21.06.2024,18:00:00,Waldblick,Trebbiner Straße,15831,0.699
+21.06.2024,18:01:23,Glasow,Krügers Land,15831,1.782
+21.06.2024,18:03:29,Mahlow,Am Lückefeld,15831,0.098
+21.06.2024,18:37:40,Waldblick,Albrechtstraße,15831,1.438
+23.04.2024,11:40:27,Waldblick,Berliner Straße,15831,0.528
+23.04.2024,12:00:00,Waldblick,L 76,15831,0.243
+23.04.2024,12:00:00,Waldblick,Ulmenhof,15831,0.231
+23.04.2024,12:00:00,Waldblick,L 76,15831,0.213
+23.04.2024,13:17:16,Waldblick,Trebbiner Straße,15831,0.180
+23.09.2024,07:37:12,Waldblick,Berliner Straße,15831,0.068
+23.09.2024,08:00:00,Waldblick,L 76,15831,0.241
+23.09.2024,08:00:00,Waldblick,Kirschenhof,15831,0.225
+23.09.2024,08:00:00,Waldblick,Berliner Straße,15831,0.054
+23.09.2024,08:00:00,Waldblick,Trebbiner Straße,15831,0.229
+24.01.2024,17:00:00,Waldblick,L 76,15831,0.036
+24.01.2024,17:00:00,Waldblick,Trebbiner Straße,15831,0.210
+24.01.2024,19:00:00,Waldblick,Marillenhof,15831,0.158
+24.01.2024,19:00:00,Waldblick,L 76,15831,0.210
+25.02.2024,09:00:00,Waldblick,L 76,15831,0.021
+25.02.2024,09:00:00,Waldblick,Berliner Straße,15831,0.229
+25.02.2024,11:00:00,Waldblick,Kirschenhof,15831,0.069
+25.02.2024,13:00:00,Waldblick,Kirschenhof,15831,0.032
+25.02.2024,13:00:00,Waldblick,Berliner Straße,15831,0.233
+25.02.2024,13:00:00,Waldblick,Herbert-Tschäpe-Straße,15831,0.563
+25.02.2024,13:00:00,Mahlow,Trebbiner Straße,15831,0.215
+25.02.2024,13:00:00,Waldblick,Ahornhof,15831,0.845
+25.02.2024,13:00:00,Waldblick,Kirschenhof,15831,0.203
+25.02.2024,13:01:47,Waldblick,Kirschenhof,15831,0.019
+25.02.2024,13:01:47,Waldblick,Kirschenhof,15831,0.017
+25.02.2024,15:00:00,Waldblick,Ahornhof,15831,0.189
+25.02.2024,15:00:00,Waldblick,Lindenhof,15831,0.037
+25.06.2024,12:00:00,Waldblick,L 76,15831,0.289
+25.06.2024,12:00:00,Waldblick,Berliner Straße,15831,0.263
+25.06.2024,12:00:00,Waldblick,Berliner Straße,15831,0.448
+25.06.2024,12:00:00,Waldblick,Stefan-Zweig-Straße,15831,0.664
+25.06.2024,12:00:00,Mahlow,Berliner Damm,15831,0.429
+25.06.2024,14:00:00,Mahlow,Berliner Damm,15831,0.177
+25.06.2024,14:00:00,Waldblick,L 76,15831,1.088
+26.01.2024,21:00:00,Waldblick,L 76,15831,0.081
+26.01.2024,21:00:00,Waldblick,Kirschenhof,15831,0.332
+26.01.2024,21:00:00,Waldblick,Ulmenhof,15831,0.076
+26.01.2024,21:00:00,Mahlow,Am Lückefeld,15831,1.886
+26.01.2024,21:00:00,Glasow,B 96,15831,0.230
+26.04.2024,15:21:10,Waldblick,Trebbiner Straße,15831,1.831
+26.04.2024,16:00:00,Waldblick,L 76,15831,0.126
+26.04.2024,16:00:00,Waldblick,Trebbiner Straße,15831,0.068
+26.04.2024,16:00:00,Mahlow,Am Lückefeld,15831,1.792
+26.04.2024,16:00:00,Mahlow,Am Lückefeld,15831,0.153
+26.04.2024,17:13:02,Waldblick,Trebbiner Straße,15831,1.613
+26.04.2024,17:45:56,Mahlow,Am Lückefeld,15831,1.603
+26.04.2024,18:00:00,Mahlow,Am Lückefeld,15831,0.099
+26.06.2024,08:00:00,Waldblick,L 76,15831,1.715
+26.06.2024,08:00:00,Waldblick,Berliner Straße,15831,0.231
+26.06.2024,09:17:35,Waldblick,Trebbiner Straße,15831,0.105
+26.06.2024,10:00:00,Waldblick,Birkenhof,15831,0.165
+26.06.2024,10:00:00,Waldblick,Bodelschwinghstraße,15831,0.375
+26.06.2024,10:00:00,Mahlow,Virchowstraße,15831,0.556
+26.06.2024,10:00:00,Glasow,Krügers Land,15831,0.879
+26.06.2024,10:00:00,Glasow,Krügers Land,15831,0.275
+26.06.2024,10:00:00,Mahlow,Am Lückefeld,15831,0.072
+26.06.2024,10:00:00,Mahlow,Am Lückefeld,15831,0.076
+26.06.2024,10:00:00,Glasow,B 96,15831,0.231
+26.06.2024,10:07:08,Waldblick,Berliner Straße,15831,1.447
+26.06.2024,10:07:08,Mahlow,Am Lückefeld,15831,1.645
+26.06.2024,10:37:53,Glasow,Krügers Land,15831,0.058
+28.01.2024,12:29:21,Waldblick,Trebbiner Straße,15831,1.688
+28.01.2024,13:00:00,Waldblick,Trebbiner Straße,15831,0.001
+28.01.2024,13:00:00,Waldblick,Kastanienhof,15831,0.440
+28.01.2024,13:00:00,Waldblick,Kirschenhof,15831,0.383
+28.01.2024,13:00:00,Waldblick,Trebbiner Straße,15831,0.289
+28.01.2024,13:00:00,Waldblick,Kirschenhof,15831,0.303
+28.01.2024,17:00:00,Waldblick,L 76,15831,0.385
+28.01.2024,19:00:00,Waldblick,Kirschenhof,15831,0.400
+28.01.2024,19:00:00,Waldblick,Ahornhof,15831,0.201
+28.01.2024,19:24:28,Waldblick,Kirschenhof,15831,0.196
+28.05.2024,11:41:21,Waldblick,Berliner Straße,15831,0.089
+28.05.2024,12:00:00,Waldblick,L 76,15831,0.214
+28.05.2024,12:00:00,Waldblick,Kirschenhof,15831,0.236
+28.05.2024,12:00:00,Waldblick,Weidenhof,15831,0.236
+28.05.2024,12:00:00,Waldblick,Berliner Straße,15831,0.290
+28.05.2024,12:00:00,Waldblick,L 76,15831,0.207
+28.05.2024,13:03:53,Waldblick,Ulmenhof,15831,0.166
+28.06.2024,10:00:00,Waldblick,L 76,15831,0.186
+28.06.2024,10:00:00,Waldblick,Berliner Straße,15831,0.210
+28.06.2024,10:00:00,Waldblick,Ulmenhof,15831,0.128
+28.06.2024,12:00:00,Mahlow,Grenzweg,15831,0.966
+28.06.2024,12:00:00,Waldblick,Ulmenhof,15831,0.955
+28.06.2024,12:00:00,Mahlow,Trebbiner Straße,15831,0.842
+28.06.2024,12:00:00,Mahlow,Berliner Damm,15831,0.338
+28.06.2024,12:00:00,Mahlow,Berliner Damm,15831,0.303
+28.06.2024,12:00:00,Waldblick,Trebbiner Straße,15831,0.763
+28.06.2024,12:00:00,Waldblick,Marillenhof,15831,0.213
+28.06.2024,12:00:00,Waldblick,Kirschenhof,15831,0.116
+28.06.2024,12:00:00,Waldblick,Kirschenhof,15831,0.014
+28.06.2024,12:00:00,Waldblick,Marktplatz,15831,0.212
+28.06.2024,12:00:00,Waldblick,Maxim-Gorki-Straße,15831,0.512
+28.06.2024,12:00:00,Mahlow,Virchowstraße,15831,0.478
+28.06.2024,12:00:00,Glasow,Krügers Land,15831,0.876
+28.06.2024,12:00:00,Glasow,Krügers Land,15831,0.255
+28.06.2024,12:36:23,Waldblick,Birkenhof,15831,1.884
+28.06.2024,13:03:07,Waldblick,Marktplatz,15831,0.143
+28.06.2024,13:31:28,Waldblick,Berliner Straße,15831,0.124
+29.01.2024,09:00:00,Waldblick,Trebbiner Straße,15831,0.537
+29.01.2024,09:00:00,Waldblick,Trebbiner Straße,15831,0.007
+29.01.2024,09:00:00,Waldblick,Kirschenhof,15831,0.571
+29.01.2024,09:46:45,Waldblick,Heimstättenstraße,15831,0.677
+29.01.2024,09:50:50,Waldblick,Trebbiner Straße,15831,0.184
+29.01.2024,11:00:00,Waldblick,Kirschenhof,15831,0.575
+29.01.2024,13:00:00,Waldblick,Kirschenhof,15831,0.003
+29.01.2024,13:00:00,Waldblick,Herbert-Tschäpe-Straße,15831,0.434
+29.01.2024,13:00:00,Waldblick,Buchenhof,15831,0.371
+29.01.2024,13:00:00,Waldblick,Marillenhof,15831,0.084
+29.01.2024,13:00:00,Waldblick,Kirschenhof,15831,0.131
+29.01.2024,14:02:39,Waldblick,Kirschenhof,15831,0.007
+29.01.2024,14:29:02,Waldblick,Marktplatz,15831,0.206
+29.01.2024,15:00:00,Waldblick,Ulmenhof,15831,0.168
+29.01.2024,15:00:00,Waldblick,Kirschenhof,15831,0.050
+30.01.2024,09:00:00,Waldblick,L 76,15831,0.147
+30.01.2024,09:00:00,Waldblick,Marktplatz,15831,0.258
+30.01.2024,09:00:00,Waldblick,Kirschenhof,15831,0.209
+30.01.2024,09:00:00,Waldblick,Kirschenhof,15831,0.011
+30.01.2024,11:00:00,Waldblick,Kirschenhof,15831,0.005
+30.01.2024,11:00:00,Waldblick,Marktplatz,15831,0.246
+30.09.2024,07:45:35,Mahlow,Am Lückefeld,15831,2.072
+30.09.2024,08:00:00,Mahlow,Am Lückefeld,15831,0.019
+30.09.2024,08:00:00,Mahlow,Am Lückefeld,15831,0.085
+30.09.2024,08:00:00,Mahlow,Am Lückefeld,15831,0.139
+30.09.2024,08:00:00,Mahlow,Virchowstraße,15831,0.939
+30.09.2024,08:00:00,Mahlow,Virchowstraße,15831,0.472
+30.09.2024,08:00:00,Waldblick,Luisenstraße,15831,0.330
+30.09.2024,08:00:00,Waldblick,Luisenstraße,15831,0.031
+30.09.2024,08:00:00,Waldblick,Karl-Marx-Platz,15831,0.059
+30.09.2024,08:00:00,Waldblick,Berliner Straße,15831,0.484
+30.09.2024,08:52:48,Mahlow,Am Lückefeld,15831,1.790
+30.09.2024,08:52:48,Waldblick,Maxim-Gorki-Straße,15831,1.516
+30.09.2024,10:00:00,Waldblick,Marktplatz,15831,0.574
+30.09.2024,10:00:00,Waldblick,Kirschenhof,15831,0.210
+30.09.2024,10:00:00,Waldblick,Luisenstraße,15831,0.513
+30.09.2024,10:00:00,Waldblick,Trebbiner Straße,15831,0.139
+30.09.2024,10:00:00,Waldblick,Kirschenhof,15831,0.594
+30.09.2024,10:00:00,Mahlow,Ernst-Thälmann-Straße,15831,1.045
+30.09.2024,10:00:00,Glasow,Krügers Land,15831,0.763
+30.09.2024,10:00:00,Mahlow,Am Lückefeld,15831,0.231
+30.09.2024,11:34:35,Waldblick,Kirschenhof,15831,1.782
+30.09.2024,11:41:12,Waldblick,Kirschenhof,15831,0.037
+30.09.2024,12:00:00,Mahlow,Am Lückefeld,15831,1.809
+30.09.2024,12:00:00,Mahlow,Am Lückefeld,15831,0.034
+30.09.2024,12:09:16,Mahlow,Am Lückefeld,15831,0.222
