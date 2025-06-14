@@ -1,15 +1,10 @@
 /**
- * Location analysis utilities - TypeScript port of Python location analyzer
+ * Location analysis utilities - Simplified for business location visits
  */
 
 export interface Coordinates {
   lat: number;
   lon: number;
-}
-
-export interface LocationWithTime extends Coordinates {
-  timestamp: string;
-  address?: string;
 }
 
 export interface RelevantLocation {
@@ -18,6 +13,21 @@ export interface RelevantLocation {
   lon: number;
   radius_km: number;
   address: string;
+}
+
+export interface HomeLocation extends Coordinates {
+  name: string;
+  address: string;
+}
+
+export interface BusinessVisit {
+  date: string;
+  businessLocation: RelevantLocation;
+  homeLocation: HomeLocation;
+  distanceKm: number;
+  routeDistanceKm?: number; // Actual route distance (if calculated)
+  routeDurationMinutes?: number; // Route duration in minutes
+  routeProfile?: string; // Route type used for calculation
 }
 
 export interface TimelineSegment {
@@ -43,15 +53,6 @@ export interface TimelineSegment {
   }>;
 }
 
-export interface TripResult {
-  date: string;
-  startLocation: string;
-  endLocation: string;
-  totalDistance: number;
-  businessPurpose: string;
-  coordinates: LocationWithTime[];
-}
-
 /**
  * Calculate distance between two points using Haversine formula
  */
@@ -71,157 +72,99 @@ export function haversine(lat1: number, lon1: number, lat2: number, lon2: number
 }
 
 /**
- * Extract coordinates from timeline segment
+ * Parse coordinate string from Google Timeline
+ * Supports both formats:
+ * - E7 format: "latE7:520008000,lngE7:134049540"
+ * - Decimal format: "47.6169706°, 18.3407624°"
  */
-export function extractAllCoordinates(segment: TimelineSegment): string[] {
-  const coords: string[] = [];
+export function parseCoordinateString(coordStr: string): { lat: number; lon: number } | null {
+  try {
+    // Handle E7 format (latE7:520008000,lngE7:134049540)
+    const latE7Match = coordStr.match(/latE7:(-?\d+)/);
+    const lngE7Match = coordStr.match(/lngE7:(-?\d+)/);
 
-  // 1. visit.topCandidate.placeLocation.latLng
-  const visit = segment.visit;
-  if (visit?.topCandidate?.placeLocation?.latLng) {
-    coords.push(visit.topCandidate.placeLocation.latLng);
-  }
-
-  // 2. activity.start.latLng and activity.end.latLng
-  const activity = segment.activity;
-  if (activity) {
-    if (activity.start?.latLng) {
-      coords.push(activity.start.latLng);
+    if (latE7Match && lngE7Match) {
+      const lat = parseInt(latE7Match[1]) / 1e7;
+      const lon = parseInt(lngE7Match[1]) / 1e7;
+      return { lat, lon };
     }
-    if (activity.end?.latLng) {
-      coords.push(activity.end.latLng);
-    }
-  }
 
-  // 3. timelinePath[].point
-  const timelinePath = segment.timelinePath;
-  if (timelinePath && Array.isArray(timelinePath)) {
-    for (const pathPoint of timelinePath) {
-      if (pathPoint.point) {
-        coords.push(pathPoint.point);
+    // Handle decimal degree format (47.6169706°, 18.3407624°)
+    const decimalMatch = coordStr.match(/(-?\d+\.?\d*)°,\s*(-?\d+\.?\d*)°/);
+    if (decimalMatch) {
+      const lat = parseFloat(decimalMatch[1]);
+      const lon = parseFloat(decimalMatch[2]);
+
+      if (!isNaN(lat) && !isNaN(lon)) {
+        return { lat, lon };
       }
     }
-  }
 
-  return coords;
-}
-
-/**
- * Parse coordinate string "lat°, lon°" to numbers
- */
-export function parseCoordinates(coordStr: string): Coordinates | null {
-  try {
-    // Remove degree symbols and split
-    const cleanStr = coordStr.replace(/°/g, '').trim();
-    const parts = cleanStr.split(',').map(s => s.trim());
-
-    if (parts.length !== 2) return null;
-
-    const lat = parseFloat(parts[0]);
-    const lon = parseFloat(parts[1]);
-
-    if (isNaN(lat) || isNaN(lon)) return null;
-
-    return { lat, lon };
-  } catch {
+    console.warn('Unable to parse coordinate string:', coordStr);
+    return null;
+  } catch (error) {
+    console.error('Failed to parse coordinate string:', coordStr, error);
     return null;
   }
 }
 
 /**
- * Check if coordinate is within relevant business location
+ * Check if a coordinate is within radius of a business location
  */
-export function isCoordinateRelevant(
+export function isWithinBusinessLocation(
+  coord: { lat: number; lon: number },
+  businessLocation: RelevantLocation
+): boolean {
+  const distance = haversine(coord.lat, coord.lon, businessLocation.lat, businessLocation.lon);
+  return distance <= businessLocation.radius_km;
+}
+
+/**
+ * Check if coordinate is within any business location
+ */
+export function findMatchingBusinessLocation(
   lat: number,
   lon: number,
   locations: RelevantLocation[]
-): string | null {
+): RelevantLocation | null {
   for (const location of locations) {
     const dist = haversine(location.lat, location.lon, lat, lon);
     if (dist <= location.radius_km) {
-      return location.name;
+      return location;
     }
   }
   return null;
 }
 
 /**
- * Calculate total distance for a route
- */
-export function calculateTotalDistance(coords: Coordinates[]): {
-  sectionDistances: number[];
-  totalDistance: number;
-} {
-  if (!coords || coords.length < 2) {
-    return { sectionDistances: [], totalDistance: 0 };
-  }
-
-  const sectionDistances: number[] = [];
-  let totalDistance = 0;
-
-  for (let i = 1; i < coords.length; i++) {
-    const distance = haversine(
-      coords[i - 1].lat,
-      coords[i - 1].lon,
-      coords[i].lat,
-      coords[i].lon
-    );
-    sectionDistances.push(distance);
-    totalDistance += distance;
-  }
-
-  return { sectionDistances, totalDistance };
-}
-
-/**
- * Filter significant movements (above minimum distance threshold)
- */
-export function filterSignificantMovements(
-  coordsWithTime: LocationWithTime[],
-  minMovementKm: number = 0.1
-): LocationWithTime[] {
-  if (coordsWithTime.length <= 2) {
-    return coordsWithTime;
-  }
-
-  const filtered = [coordsWithTime[0]]; // Always keep start point
-
-  for (let i = 1; i < coordsWithTime.length; i++) {
-    const current = coordsWithTime[i];
-    const lastKept = filtered[filtered.length - 1];
-
-    const dist = haversine(lastKept.lat, lastKept.lon, current.lat, current.lon);
-
-    if (dist >= minMovementKm) {
-      filtered.push(current);
-    }
-  }
-
-  // Always keep end point (if not already included)
-  const lastCoord = coordsWithTime[coordsWithTime.length - 1];
-  if (filtered[filtered.length - 1] !== lastCoord) {
-    filtered.push(lastCoord);
-  }
-
-  return filtered;
-}
-
-/**
- * Default business locations (can be customized by user)
+ * Default business locations
+ * Note: These are set to match the sample timeline data for testing
+ * In production, update these to your actual business locations
  */
 export const DEFAULT_BUSINESS_LOCATIONS: RelevantLocation[] = [
   {
-    name: "Blankenfelde-Mahlow",
+    name: 'Blankenfelde-Mahlow',
     lat: 52.3660644,
     lon: 13.4110777,
     radius_km: 2.0,
-    address: "Kirschenhof 2, 15831 Blankenfelde-Mahlow"
+    address: 'Kirschenhof 2, 15831 Blankenfelde-Mahlow'
   },
   {
-    name: "Leipzig Business Area",
+    name: 'Leipzig Geschäftsbereich',
     lat: 51.36010668944128,
     lon: 12.368906495788186,
     radius_km: 20.0,
-    address: "Leipzig (Business Area)"
+    address: 'Leipzig (Geschäftsbereich)'
   }
 ];
+
+/**
+ * Default home location
+ * Note: Set to match the sample timeline data for testing
+ */
+export const DEFAULT_HOME_LOCATION: HomeLocation = {
+  name: 'Home',
+  lat: 52.5168352, // Example: Cologne area
+  lon: 13.4264708,
+  address: 'Berlin, Germany'
+};

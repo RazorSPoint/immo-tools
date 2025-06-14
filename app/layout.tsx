@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { Manrope } from 'next/font/google';
 import { getUser, getTeamForUser } from '@/lib/db/queries';
 import { SWRConfig } from 'swr';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   title: 'ImmoTools - Real Estate Business Tools',
@@ -25,6 +26,14 @@ export default function RootLayout({
       lang="en"
       className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
     >
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css"
+          integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw=="
+          crossOrigin=""
+        />
+      </head>
       <body className="min-h-[100dvh] bg-gray-50">
         <SWRConfig
           value={{
@@ -37,6 +46,7 @@ export default function RootLayout({
           }}
         >
           {children}
+          <Toaster />
         </SWRConfig>
       </body>
     </html>
