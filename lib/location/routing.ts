@@ -180,3 +180,82 @@ export function getProfileDisplayName(profile: RouteProfile): string {
       return profile;
   }
 }
+
+/**
+ * Geocoding interface and types
+ */
+export interface GeocodeResult {
+  address: string;           // Full formatted address
+  lat: number;
+  lon: number;
+  confidence: number;        // Search confidence (0-1)
+  city?: string;
+  country?: string;
+  postalCode?: string;
+  source?: string;
+}
+
+/**
+ * Search for addresses using OpenRouteService geocoding
+ */
+export async function searchAddresses(query: string): Promise<GeocodeResult[] | RoutingError> {
+  if (!query || query.trim().length < 3) {
+    return { message: 'Query too short - minimum 3 characters' };
+  }
+
+  try {
+    const response = await axios.get(
+      'https://api.openrouteservice.org/geocode/search',
+      {
+        params: {
+          api_key: ORS_API_KEY,
+          text: query.trim(),
+          size: 10, // Maximum 10 results
+        },
+        timeout: 8000 // 8 second timeout
+      }
+    );
+
+    if (!response.data?.features) {
+      return { message: 'No results found' };
+    }
+
+    const results: GeocodeResult[] = response.data.features.map((feature: any) => {
+      const props = feature.properties;
+      const coords = feature.geometry.coordinates;
+
+      return {
+        address: props.label || props.name || 'Unknown address',
+        lat: coords[1],
+        lon: coords[0],
+        confidence: props.confidence || 0,
+        city: props.locality || props.localadmin || props.region,
+        country: props.country,
+        postalCode: props.postalcode,
+        source: 'openrouteservice'
+      };
+    });
+
+    return results.filter(result => result.confidence > 0.1); // Filter very low confidence results
+
+  } catch (error: any) {
+    console.error('Geocoding error:', error);
+
+    if (error.response?.status === 403) {
+      return { message: 'API key invalid or quota exceeded', code: 'API_ERROR' };
+    } else if (error.response?.status === 404) {
+      return { message: 'No addresses found for this search', code: 'NO_RESULTS' };
+    } else if (error.code === 'ECONNABORTED') {
+      return { message: 'Search timeout - please try again', code: 'TIMEOUT' };
+    } else {
+      return { message: 'Address search failed', code: 'UNKNOWN_ERROR' };
+    }
+  }
+}
+
+/**
+ * Validate coordinates are reasonable
+ */
+export function validateCoordinates(lat: number, lon: number): boolean {
+  return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180;
+}
