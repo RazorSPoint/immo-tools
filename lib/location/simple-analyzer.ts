@@ -11,6 +11,7 @@ import {
   findMatchingBusinessLocation,
   haversine
 } from './utils';
+import { calculateRoute, RouteProfile } from './routing';
 
 export interface TimelineData {
   // New Google Timeline format
@@ -47,17 +48,89 @@ export interface BusinessAnalyzerConfig {
   targetYear: number;
   businessLocations: RelevantLocation[];
   homeLocation: HomeLocation;
+  routeProfile?: RouteProfile; // Optional route profile for distance calculation
 }
 
 export class BusinessLocationAnalyzer {
   private config: BusinessAnalyzerConfig;
+  private distanceCache: Map<string, number> = new Map(); // Cache distances by business location name
+  private distancesCalculated: Promise<void>; // Promise that resolves when distances are calculated
 
   constructor(config: BusinessAnalyzerConfig) {
     this.config = config;
-  }  /**
+    this.distancesCalculated = this.preCalculateDistances();
+  }
+
+  /**
+   * Pre-calculate distances from home to all business locations using routing API
+   */
+  private async preCalculateDistances(): Promise<void> {
+    console.log('📏 Pre-calculating routing distances from home to business locations...');
+
+    const routeProfile = this.config.routeProfile || 'driving-car';
+
+    for (const businessLocation of this.config.businessLocations) {
+      try {
+        // Use routing API for real route distance
+        const routeResult = await calculateRoute(
+          { lat: this.config.homeLocation.lat, lon: this.config.homeLocation.lon },
+          { lat: businessLocation.lat, lon: businessLocation.lon },
+          routeProfile
+        );
+
+        let distance: number;
+
+        if ('message' in routeResult) {
+          // Fallback to haversine if routing fails
+          console.warn(`⚠️ Routing failed for ${businessLocation.name}, using straight-line distance: ${routeResult.message}`);
+          distance = haversine(
+            this.config.homeLocation.lat,
+            this.config.homeLocation.lon,
+            businessLocation.lat,
+            businessLocation.lon
+          );
+        } else {
+          // Convert meters to kilometers
+          distance = routeResult.distance / 1000;
+        }
+
+        this.distanceCache.set(businessLocation.name, distance);
+        console.log(`📏 ${businessLocation.name}: ${distance.toFixed(2)} km from home (${routeProfile})`);
+
+        // Add small delay to avoid hitting API rate limits
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+      } catch (error) {
+        console.error(`❌ Error calculating distance for ${businessLocation.name}:`, error);
+        // Fallback to haversine distance
+        const fallbackDistance = haversine(
+          this.config.homeLocation.lat,
+          this.config.homeLocation.lon,
+          businessLocation.lat,
+          businessLocation.lon
+        );
+        this.distanceCache.set(businessLocation.name, fallbackDistance);
+        console.log(`📏 ${businessLocation.name}: ${fallbackDistance.toFixed(2)} km from home (fallback)`);
+      }
+    }
+
+    console.log('✅ Distance pre-calculation completed');
+  }
+
+  /**
+   * Get cached distance for a business location
+   */
+  private getCachedDistance(businessLocationName: string): number {
+    return this.distanceCache.get(businessLocationName) || 0;
+  }
+
+  /**
    * Analyze timeline data and find business location visits
    */
-  analyzeTimeline(timelineData: TimelineData): BusinessVisit[] {
+  async analyzeTimeline(timelineData: TimelineData): Promise<BusinessVisit[]> {
+    // Wait for distances to be calculated
+    await this.distancesCalculated;
+
     const visits: BusinessVisit[] = [];
     const visitedDates = new Set<string>();
 
@@ -103,12 +176,8 @@ export class BusinessLocationAnalyzer {
           const date = this.extractDateFromSegment(segment);
 
           if (date && this.isTargetYear(date) && !visitedDates.has(date)) {
-            const distanceFromHome = haversine(
-              this.config.homeLocation.lat,
-              this.config.homeLocation.lon,
-              matchingLocation.lat,
-              matchingLocation.lon
-            );
+            // Use cached distance instead of calculating each time
+            const distanceFromHome = this.getCachedDistance(matchingLocation.name);
 
             visits.push({
               date,
@@ -118,7 +187,7 @@ export class BusinessLocationAnalyzer {
             });
 
             visitedDates.add(date);
-            console.log(`✅ Found business visit: ${date} - ${matchingLocation.name}`);
+            console.log(`✅ Found business visit: ${date} - ${matchingLocation.name} (${distanceFromHome.toFixed(2)} km)`);
           }
           break; // Stop checking other coordinates for this segment
         }

@@ -55,39 +55,43 @@ export async function calculateRoute(
     ];
 
     const response = await axios.post(
-      `${ORS_API_BASE}/directions/${profile}/geojson`,
+      `${ORS_API_BASE}/directions/${profile}`,
       {
         coordinates,
-        instructions: true,
-        geometry: true
+        radiuses: [1000, 1000] // 1km tolerance for finding the nearest road
       },
       {
         headers: {
           'Authorization': ORS_API_KEY,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         timeout: 10000 // 10 second timeout
       }
     );
 
-    const feature = response.data.features[0];
-    if (!feature) {
+    const route = response.data.routes[0];
+    if (!route) {
       return { message: 'No route found' };
     }
 
-    const properties = feature.properties;
-    const geometry = feature.geometry.coordinates;
+    const summary = route.summary;
+    const geometry = route.geometry;
 
-    const steps: RouteStep[] = properties.segments?.[0]?.steps?.map((step: any) => ({
+    const steps: RouteStep[] = route.segments?.[0]?.steps?.map((step: any) => ({
       instruction: step.instruction,
       distance: step.distance,
       duration: step.duration
     })) || [];
 
+    // Note: OpenRouteService returns an encoded geometry string, we need to decode it
+    // For now, we'll return the raw geometry and decode it later if needed
+    const geometryCoords: [number, number][] = [];
+
     return {
-      distance: properties.summary.distance,
-      duration: properties.summary.duration,
-      geometry: geometry,
+      distance: summary.distance,
+      duration: summary.duration,
+      geometry: geometryCoords, // Will be empty for now, can be decoded later if needed
       steps,
       profile
     };

@@ -10,7 +10,7 @@ import { BusinessVisit, RelevantLocation, DEFAULT_BUSINESS_LOCATIONS, DEFAULT_HO
 import { BusinessLocationAnalyzer, downloadCSV, TimelineData } from '@/lib/location/simple-analyzer';
 import { RouteMapModal } from '@/components/location/RouteMapModal';
 import { AddressSearch } from '@/components/location/AddressSearch';
-import { GeocodeResult } from '@/lib/location/routing';
+import { GeocodeResult, RouteProfile } from '@/lib/location/routing';
 
 interface LocationAnalyzerState {
   file: File | null;
@@ -21,6 +21,7 @@ interface LocationAnalyzerState {
   results: BusinessVisit[];
   error: string | null;
   selectedVisit: BusinessVisit | null; // Selected visit for map display
+  routeProfile: RouteProfile; // Route profile for distance calculation
 }
 
 interface FilterState {
@@ -64,7 +65,8 @@ export default function LocationAnalyzerPage() {
     isAnalyzing: false,
     results: [],
     error: null,
-    selectedVisit: null
+    selectedVisit: null,
+    routeProfile: 'driving-car'
   });
 
   const [filters, setFilters] = useState<FilterState>({
@@ -148,13 +150,14 @@ export default function LocationAnalyzerPage() {
       const analyzer = new BusinessLocationAnalyzer({
         targetYear: state.targetYear,
         businessLocations: state.businessLocations,
-        homeLocation: state.homeLocation
+        homeLocation: state.homeLocation,
+        routeProfile: state.routeProfile
       });
       console.log('🧠 Analyzer created');
 
       // Analyze the timeline data
       console.log('🔬 Starting analysis...');
-      const results = analyzer.analyzeTimeline(timelineData);
+      const results = await analyzer.analyzeTimeline(timelineData);
       console.log('✅ Analysis completed, results:', results.length);
 
       setState(prev => ({
@@ -455,6 +458,28 @@ export default function LocationAnalyzerPage() {
                   min="2010"
                   max={new Date().getFullYear() + 1}
                 />
+              </div>
+
+              <div>
+                <Label htmlFor="route-profile">Distance Calculation Mode</Label>
+                <select
+                  id="route-profile"
+                  value={state.routeProfile}
+                  onChange={(e) => setState(prev => ({
+                    ...prev,
+                    routeProfile: e.target.value as RouteProfile
+                  }))}
+                  className="mt-1 w-full px-3 py-2 border border-input bg-background rounded-md text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  title="Select distance calculation mode"
+                  aria-label="Distance calculation mode"
+                >
+                  <option value="driving-car">🚗 Driving (Car)</option>
+                  <option value="foot-walking">🚶 Walking</option>
+                  <option value="public-transport">🚌 Public Transport</option>
+                </select>
+                <p className="text-xs text-gray-500 mt-1">
+                  Choose how distances are calculated using real routing data
+                </p>
               </div>
 
               {state.error && (
