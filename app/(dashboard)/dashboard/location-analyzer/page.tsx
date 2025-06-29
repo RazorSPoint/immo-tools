@@ -13,6 +13,8 @@ import { AddressSearch } from '@/components/location/AddressSearch';
 import { GeocodeResult, RouteProfile } from '@/lib/location/routing';
 import { LocationAnalyzerState, FilterState, SortState, LocationEditState } from './types/analyzer';
 import { ResultsTable } from './components/ResultsTable';
+import { LocationManager } from './components/LocationManager';
+import { AnalyzerSettings } from './components/AnalyzerSettings';
 
 export default function LocationAnalyzerPage() {
   const [state, setState] = useState<LocationAnalyzerState>({
@@ -377,253 +379,29 @@ export default function LocationAnalyzerPage() {
 
         {/* Configuration Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* File Upload */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Upload className="h-5 w-5" />
-                Timeline Data
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="timeline-file">Google Timeline JSON File</Label>
-                <Input
-                  id="timeline-file"
-                  type="file"
-                  accept=".json"
-                  onChange={handleFileUpload}
-                  className="mt-1"
-                />
-                {state.file && (
-                  <p className="text-sm text-green-600 mt-1">
-                    ✓ {state.file.name} uploaded
-                  </p>
-                )}
-              </div>
+          {/* Settings */}
+          <AnalyzerSettings
+            file={state.file}
+            targetYear={state.targetYear}
+            routeProfile={state.routeProfile}
+            error={state.error}
+            onFileUpload={handleFileUpload}
+            onYearChange={(year) => setState(prev => ({ ...prev, targetYear: year }))}
+            onRouteProfileChange={(profile) => setState(prev => ({ ...prev, routeProfile: profile }))}
+          />
 
-              <div>
-                <Label htmlFor="target-year">Analysis Year</Label>
-                <Input
-                  id="target-year"
-                  type="number"
-                  value={state.targetYear}
-                  onChange={(e) => setState(prev => ({
-                    ...prev,
-                    targetYear: parseInt(e.target.value) || new Date().getFullYear()
-                  }))}
-                  className="mt-1"
-                  min="2010"
-                  max={new Date().getFullYear() + 1}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="route-profile">Distance Calculation Mode</Label>
-                <select
-                  id="route-profile"
-                  value={state.routeProfile}
-                  onChange={(e) => setState(prev => ({
-                    ...prev,
-                    routeProfile: e.target.value as RouteProfile
-                  }))}
-                  className="mt-1 w-full px-3 py-2 border border-input bg-background rounded-md text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                  title="Select distance calculation mode"
-                  aria-label="Distance calculation mode"
-                >
-                  <option value="driving-car">🚗 Driving (Car)</option>
-                  <option value="foot-walking">🚶 Walking</option>
-                  <option value="public-transport">🚌 Public Transport</option>
-                </select>
-                <p className="text-xs text-gray-500 mt-1">
-                  Choose how distances are calculated using real routing data
-                </p>
-              </div>
-
-              {state.error && (
-                <p className="text-sm text-red-600">{state.error}</p>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Home Location */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span className="flex items-center gap-2">
-                  <Home className="h-5 w-5" />
-                  Home Location
-                </span>
-                {!locationEdit.editingHome && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setLocationEdit(prev => ({ ...prev, editingHome: true }))}
-                  >
-                    <Edit2 className="h-4 w-4" />
-                  </Button>
-                )}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {locationEdit.editingHome ? (
-                <div className="space-y-3">
-                  <AddressSearch
-                    placeholder="Search for your home address..."
-                    onSelect={handleHomeLocationSelect}
-                    onClose={() => setLocationEdit(prev => ({ ...prev, editingHome: false }))}
-                  />
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setLocationEdit(prev => ({ ...prev, editingHome: false }))}
-                      className="flex-1"
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className="p-3 bg-green-50 rounded-lg">
-                    <h4 className="font-medium text-green-800">{state.homeLocation.name}</h4>
-                    <p className="text-sm text-green-600">{state.homeLocation.address}</p>
-                    <p className="text-xs text-green-500 mt-1">
-                      📍 {state.homeLocation.lat.toFixed(4)}°, {state.homeLocation.lon.toFixed(4)}°
-                    </p>
-                  </div>
-                  <Button
-                    variant="outline"
-                    className="w-full mt-4"
-                    onClick={() => setLocationEdit(prev => ({ ...prev, editingHome: true }))}
-                  >
-                    <Edit2 className="h-4 w-4 mr-2" />
-                    Change Home Location
-                  </Button>
-                </>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Business Locations */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span className="flex items-center gap-2">
-                  <MapPin className="h-5 w-5" />
-                  Business Locations ({state.businessLocations.length})
-                </span>
-                <div className="flex gap-1">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setLocationEdit(prev => ({ ...prev, addingBusinessLocation: true }))}
-                    disabled={locationEdit.addingBusinessLocation}
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={resetToDefaults}
-                    title="Reset to defaults"
-                  >
-                    <Settings className="h-4 w-4" />
-                  </Button>
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {/* Add New Location Interface */}
-              {locationEdit.addingBusinessLocation && (
-                <div className="mb-4 p-3 border rounded-lg bg-gray-50">
-                  <h4 className="font-medium mb-2">Add Business Location</h4>
-                  <div className="space-y-3">
-                    <AddressSearch
-                      placeholder="Search for business address..."
-                      onSelect={handleBusinessLocationSelect}
-                      onClose={() => setLocationEdit(prev => ({ ...prev, addingBusinessLocation: false }))}
-                    />
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setLocationEdit(prev => ({ ...prev, addingBusinessLocation: false }))}
-                        className="flex-1"
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Business Locations List */}
-              <div className="space-y-3 max-h-64 overflow-y-auto">
-                {state.businessLocations.length === 0 ? (
-                  <div className="text-center text-gray-500 py-4">
-                    No business locations added yet.
-                    <br />
-                    <Button
-                      variant="link"
-                      size="sm"
-                      onClick={() => setLocationEdit(prev => ({ ...prev, addingBusinessLocation: true }))}
-                      className="p-0 h-auto"
-                    >
-                      Add your first location
-                    </Button>
-                  </div>
-                ) : (
-                  state.businessLocations.map((location, index) => (
-                    <div key={index} className="p-3 bg-blue-50 rounded-lg group">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <h4 className="font-medium text-blue-800">{location.name}</h4>
-                          <p className="text-sm text-blue-600">{location.address}</p>
-                          <div className="flex items-center gap-2 mt-2">
-                            <span className="text-xs text-blue-500">Radius:</span>
-                            <Input
-                              type="number"
-                              value={location.radius_km}
-                              onChange={(e) => updateBusinessLocationRadius(index, Number(e.target.value) || 1)}
-                              className="w-20 h-6 text-xs"
-                              min="0.1"
-                              step="0.1"
-                            />
-                            <span className="text-xs text-blue-500">km</span>
-                          </div>
-                        </div>
-                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => removeBusinessLocation(index)}
-                            className="h-6 w-6 p-0 text-red-500 hover:text-red-700"
-                            title="Remove location"
-                          >
-                            <Trash2 className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              {/* Quick Add Button */}
-              {!locationEdit.addingBusinessLocation && state.businessLocations.length > 0 && (
-                <Button
-                  variant="outline"
-                  className="w-full mt-4"
-                  onClick={() => setLocationEdit(prev => ({ ...prev, addingBusinessLocation: true }))}
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Business Location
-                </Button>
-              )}
-            </CardContent>
-          </Card>
+          {/* Location Management */}
+          <LocationManager
+            homeLocation={state.homeLocation}
+            businessLocations={state.businessLocations}
+            locationEdit={locationEdit}
+            setLocationEdit={setLocationEdit}
+            onHomeLocationSelect={handleHomeLocationSelect}
+            onBusinessLocationSelect={handleBusinessLocationSelect}
+            onRemoveBusinessLocation={removeBusinessLocation}
+            onUpdateBusinessLocationRadius={updateBusinessLocationRadius}
+            onResetToDefaults={resetToDefaults}
+          />
         </div>
 
         {/* Analysis Button */}
