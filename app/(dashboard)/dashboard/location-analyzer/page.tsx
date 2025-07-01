@@ -13,7 +13,8 @@ import { AddressSearch } from '@/components/location/AddressSearch';
 import { GeocodeResult, RouteProfile } from '@/lib/location/routing';
 import { LocationAnalyzerState, FilterState, SortState, LocationEditState } from './types/analyzer';
 import { ResultsTable } from './components/ResultsTable';
-import { LocationManager } from './components/LocationManager';
+import { HomeLocationCard } from './components/HomeLocationCard';
+import { BusinessLocationsCard } from './components/BusinessLocationsCard';
 import { AnalyzerSettings } from './components/AnalyzerSettings';
 
 export default function LocationAnalyzerPage() {
@@ -390,16 +391,24 @@ export default function LocationAnalyzerPage() {
             onRouteProfileChange={(profile) => setState(prev => ({ ...prev, routeProfile: profile }))}
           />
 
-          {/* Location Management */}
-          <LocationManager
+          {/* Home Location */}
+          <HomeLocationCard
             homeLocation={state.homeLocation}
+            isEditing={locationEdit.editingHome}
+            onEdit={() => setLocationEdit(prev => ({ ...prev, editingHome: true }))}
+            onCancel={() => setLocationEdit(prev => ({ ...prev, editingHome: false }))}
+            onSelect={handleHomeLocationSelect}
+          />
+
+          {/* Business Locations */}
+          <BusinessLocationsCard
             businessLocations={state.businessLocations}
-            locationEdit={locationEdit}
-            setLocationEdit={setLocationEdit}
-            onHomeLocationSelect={handleHomeLocationSelect}
-            onBusinessLocationSelect={handleBusinessLocationSelect}
-            onRemoveBusinessLocation={removeBusinessLocation}
-            onUpdateBusinessLocationRadius={updateBusinessLocationRadius}
+            isAddingLocation={locationEdit.addingBusinessLocation}
+            onStartAddingLocation={() => setLocationEdit(prev => ({ ...prev, addingBusinessLocation: true }))}
+            onCancelAddingLocation={() => setLocationEdit(prev => ({ ...prev, addingBusinessLocation: false }))}
+            onSelectLocation={handleBusinessLocationSelect}
+            onRemoveLocation={removeBusinessLocation}
+            onUpdateLocationRadius={updateBusinessLocationRadius}
             onResetToDefaults={resetToDefaults}
           />
         </div>
