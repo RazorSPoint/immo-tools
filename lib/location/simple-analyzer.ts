@@ -12,6 +12,7 @@ import {
   haversine
 } from './utils';
 import { calculateRoute, RouteProfile } from './routing';
+import * as XLSX from 'xlsx';
 
 export interface TimelineData {
   // New Google Timeline format
@@ -67,6 +68,9 @@ export class BusinessLocationAnalyzer {
   private async preCalculateDistances(): Promise<void> {
     console.log('📏 Pre-calculating routing distances from home to business locations...');
 
+    // Clear existing cache to ensure we don't have stale data
+    this.distanceCache.clear();
+
     const routeProfile = this.config.routeProfile || 'driving-car';
 
     for (const businessLocation of this.config.businessLocations) {
@@ -121,13 +125,44 @@ export class BusinessLocationAnalyzer {
    * Get cached distance for a business location
    */
   private getCachedDistance(businessLocationName: string): number {
-    return this.distanceCache.get(businessLocationName) || 0;
+    const cachedDistance = this.distanceCache.get(businessLocationName);
+
+    if (cachedDistance !== undefined) {
+      return cachedDistance;
+    }
+
+    // If not in cache, calculate haversine distance as fallback
+    console.warn(`⚠️ No cached distance for ${businessLocationName}, calculating fallback distance`);
+
+    // Find the business location by name
+    const location = this.config.businessLocations.find(loc => loc.name === businessLocationName);
+
+    if (location) {
+      const fallbackDistance = haversine(
+        this.config.homeLocation.lat,
+        this.config.homeLocation.lon,
+        location.lat,
+        location.lon
+      );
+
+      // Cache the calculated distance for future use
+      this.distanceCache.set(businessLocationName, fallbackDistance);
+      console.log(`📏 ${businessLocationName}: ${fallbackDistance.toFixed(2)} km from home (fallback - late calculation)`);
+
+      return fallbackDistance;
+    }
+
+    console.error(`❌ Could not find business location: ${businessLocationName}`);
+    return 0;
   }
 
   /**
    * Analyze timeline data and find business location visits
    */
   async analyzeTimeline(timelineData: TimelineData): Promise<BusinessVisit[]> {
+    // Recalculate distances to ensure all business locations (including newly added ones) have distances
+    this.distancesCalculated = this.preCalculateDistances();
+
     // Wait for distances to be calculated
     await this.distancesCalculated;
 
@@ -300,4 +335,66 @@ export function downloadCSV(visits: BusinessVisit[], filename: string): void {
     link.click();
     document.body.removeChild(link);
   }
+}
+
+/**
+ * Export business visits to Excel format
+ */
+export function downloadExcel(visits: BusinessVisit[], filename: string): void {
+  // Prepare data for Excel
+  const worksheetData = [
+    ['Date', 'Business Location', 'Business Address', 'Distance from Home (km)'],
+    ...visits.map(visit => [
+      visit.date,
+      visit.businessLocation.name,
+      visit.businessLocation.address,
+      visit.distanceKm
+    ])
+  ];
+
+  // Create workbook and worksheet
+  const workbook = XLSX.utils.book_new();
+  const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+
+  // Set column widths
+  const columnWidths = [
+    { wch: 12 }, // Date
+    { wch: 25 }, // Business Location
+    { wch: 40 }, // Business Address
+    { wch: 20 }  // Distance
+  ];
+  worksheet['!cols'] = columnWidths;
+
+  // Format header row
+  const headerRange = XLSX.utils.decode_range(worksheet['!ref']!);
+  for (let col = headerRange.s.c; col <= headerRange.e.c; col++) {
+    const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col });
+    if (!worksheet[cellAddress]) continue;
+    
+    worksheet[cellAddress].s = {
+      font: { bold: true },
+      fill: { fgColor: { rgb: "F3F4F6" } },
+      border: {
+        top: { style: "thin" },
+        bottom: { style: "thin" },
+        left: { style: "thin" },
+        right: { style: "thin" }
+      }
+    };
+  }
+
+  // Format distance column as numbers with 2 decimal places
+  const distanceCol = 3; // 0-indexed
+  for (let row = 1; row <= headerRange.e.r; row++) {
+    const cellAddress = XLSX.utils.encode_cell({ r: row, c: distanceCol });
+    if (worksheet[cellAddress]) {
+      worksheet[cellAddress].z = '0.00'; // Number format with 2 decimal places
+    }
+  }
+
+  // Add worksheet to workbook
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Business Visits');
+
+  // Save the file
+  XLSX.writeFile(workbook, filename);
 }

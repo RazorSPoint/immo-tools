@@ -5,7 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Calendar, Filter, Download, X, ChevronDown, ChevronUp, ArrowUpDown, Navigation } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Calendar, Filter, Download, X, ChevronDown, ChevronUp, ArrowUpDown, Navigation, FileSpreadsheet } from 'lucide-react';
 import { BusinessVisit } from '@/lib/location/utils';
 import { SortState, FilterState } from '../types/analyzer';
 
@@ -16,7 +22,7 @@ interface ResultsTableProps {
   setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
   sort: SortState;
   onSort: (field: SortState['field']) => void;
-  onExportCSV: () => void;
+  onExport: (format: 'csv' | 'excel') => void;
   onSelectVisit: (visit: BusinessVisit) => void;
   onResetFilters: () => void;
   onToggleBusinessLocationFilter: (locationName: string) => void;
@@ -32,7 +38,7 @@ export function ResultsTable({
   setFilters,
   sort,
   onSort,
-  onExportCSV,
+  onExport,
   onSelectVisit,
   onResetFilters,
   onToggleBusinessLocationFilter,
@@ -116,15 +122,29 @@ export function ResultsTable({
                   Clear Filters
                 </Button>
               )}
-              <Button
-                onClick={onExportCSV}
-                variant="outline"
-                className="flex items-center gap-2"
-                disabled={filteredAndSortedResults.length === 0}
-              >
-                <Download className="h-4 w-4" />
-                Export CSV
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="flex items-center gap-2"
+                    disabled={filteredAndSortedResults.length === 0}
+                  >
+                    <Download className="h-4 w-4" />
+                    Export
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => onExport('csv')}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Export as CSV
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onExport('excel')}>
+                    <FileSpreadsheet className="h-4 w-4 mr-2" />
+                    Export as Excel
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
 

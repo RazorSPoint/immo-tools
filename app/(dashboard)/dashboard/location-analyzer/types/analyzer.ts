@@ -1,8 +1,10 @@
 import { BusinessVisit, RelevantLocation, HomeLocation } from '@/lib/location/utils';
 import { RouteProfile } from '@/lib/location/routing';
+import { SavedTimelineFile } from '@/lib/storage/timeline-storage';
 
 export interface LocationAnalyzerState {
   file: File | null;
+  currentSavedFileId?: string;
   targetYear: number;
   businessLocations: RelevantLocation[];
   homeLocation: HomeLocation;
