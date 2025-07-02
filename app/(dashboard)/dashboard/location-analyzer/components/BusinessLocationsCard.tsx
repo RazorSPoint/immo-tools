@@ -17,6 +17,7 @@ interface BusinessLocationsCardProps {
   onSelectLocation: (result: GeocodeResult) => void;
   onRemoveLocation: (index: number) => void;
   onUpdateLocationRadius: (index: number, radius: number) => void;
+  onUpdateTravelReason: (index: number, reason: string) => void;
   onResetToDefaults: () => void;
 }
 
@@ -28,6 +29,7 @@ export function BusinessLocationsCard({
   onSelectLocation,
   onRemoveLocation,
   onUpdateLocationRadius,
+  onUpdateTravelReason,
   onResetToDefaults
 }: BusinessLocationsCardProps) {
   return (
@@ -36,7 +38,7 @@ export function BusinessLocationsCard({
         <CardTitle className="flex items-center justify-between">
           <span className="flex items-center gap-2">
             <MapPin className="h-5 w-5" />
-            Business Locations ({businessLocations.length})
+            Geschäftsstandorte ({businessLocations.length})
           </span>
           <div className="flex gap-1">
             <Button
@@ -62,10 +64,10 @@ export function BusinessLocationsCard({
         {/* Add New Location Interface */}
         {isAddingLocation && (
           <div className="mb-4 p-3 border rounded-lg bg-gray-50">
-            <h4 className="font-medium mb-2">Add Business Location</h4>
+            <h4 className="font-medium mb-2">Geschäftsstandort hinzufügen</h4>
             <div className="space-y-3">
               <AddressSearch
-                placeholder="Search for business address..."
+                placeholder="Nach Geschäftsadresse suchen..."
                 onSelect={onSelectLocation}
                 onClose={onCancelAddingLocation}
               />
@@ -76,7 +78,7 @@ export function BusinessLocationsCard({
                   onClick={onCancelAddingLocation}
                   className="flex-1"
                 >
-                  Cancel
+                  Abbrechen
                 </Button>
               </div>
             </div>
@@ -87,7 +89,7 @@ export function BusinessLocationsCard({
         <div className="space-y-3 max-h-64 overflow-y-auto">
           {businessLocations.length === 0 ? (
             <div className="text-center text-gray-500 py-4">
-              No business locations added yet.
+              Noch keine Geschäftsstandorte hinzugefügt.
               <br />
               <Button
                 variant="link"
@@ -95,7 +97,7 @@ export function BusinessLocationsCard({
                 onClick={onStartAddingLocation}
                 className="p-0 h-auto"
               >
-                Add your first location
+                Ersten Standort hinzufügen
               </Button>
             </div>
           ) : (
@@ -105,6 +107,20 @@ export function BusinessLocationsCard({
                   <div className="flex-1">
                     <h4 className="font-medium text-blue-800">{location.name}</h4>
                     <p className="text-sm text-blue-600">{location.address}</p>
+
+                    {/* Travel Reason Input */}
+                    <div className="mt-2">
+                      <label className="text-xs text-blue-500">Reisegrund:</label>
+                      <Input
+                        type="text"
+                        value={location.travelReason || ''}
+                        onChange={(e) => onUpdateTravelReason(index, e.target.value)}
+                        className="w-full h-6 text-xs mt-1"
+                        placeholder="z.B. Kundentermin, Besprechung, Schulung"
+                      />
+                    </div>
+
+                    {/* Radius Input */}
                     <div className="flex items-center gap-2 mt-2">
                       <span className="text-xs text-blue-500">Radius:</span>
                       <Input
@@ -143,7 +159,7 @@ export function BusinessLocationsCard({
             onClick={onStartAddingLocation}
           >
             <Plus className="h-4 w-4 mr-2" />
-            Add Business Location
+            Geschäftsstandort hinzufügen
           </Button>
         )}
       </CardContent>

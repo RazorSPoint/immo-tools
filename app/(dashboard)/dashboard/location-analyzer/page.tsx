@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Upload, Download, MapPin, Calendar, FileText, Settings, Home, Navigation, Filter, ChevronDown, ChevronUp, ArrowUpDown, X, Plus, Edit2, Trash2 } from 'lucide-react';
-import { BusinessVisit, RelevantLocation, DEFAULT_BUSINESS_LOCATIONS, DEFAULT_HOME_LOCATION, HomeLocation } from '@/lib/location/utils';
+import { BusinessVisit, RelevantLocation, DEFAULT_HOME_LOCATION, HomeLocation } from '@/lib/location/utils';
 import { BusinessLocationAnalyzer, downloadCSV, downloadExcel, TimelineData } from '@/lib/location/simple-analyzer';
 import { RouteMapModal } from '@/components/location/RouteMapModal';
 import { AddressSearch } from '@/components/location/AddressSearch';
@@ -18,19 +18,21 @@ import { BusinessLocationsCard } from './components/BusinessLocationsCard';
 import { AnalyzerSettings } from './components/AnalyzerSettings';
 import { SavedTimelinesCard } from './components/SavedTimelinesCard';
 import { saveTimelineFile, updateFileAnalysisCount, SavedTimelineFile, loadTimelineData } from '@/lib/storage/timeline-storage';
+import { saveHomeLocation, loadHomeLocation, saveBusinessLocations, loadBusinessLocations, saveTaxSettings, loadTaxSettings } from '@/lib/storage/location-storage';
 
 export default function LocationAnalyzerPage() {
   const [state, setState] = useState<LocationAnalyzerState>({
     file: null,
     currentSavedFileId: undefined,
     targetYear: new Date().getFullYear(),
-    businessLocations: DEFAULT_BUSINESS_LOCATIONS,
-    homeLocation: DEFAULT_HOME_LOCATION,
+    businessLocations: [], // Will be loaded from localStorage in useEffect
+    homeLocation: DEFAULT_HOME_LOCATION, // Will be loaded from localStorage in useEffect
     isAnalyzing: false,
     results: [],
     error: null,
     selectedVisit: null,
-    routeProfile: 'driving-car'
+    routeProfile: 'driving-car',
+    costPerKm: 0.30 // Will be loaded from localStorage in useEffect
   });
 
   const [filters, setFilters] = useState<FilterState>({
@@ -57,11 +59,21 @@ export default function LocationAnalyzerPage() {
     addingBusinessLocation: false,
     editingBusinessLocationIndex: null,
     newBusinessLocation: null
-  });
-
-  // Log when component mounts to help debug session issues
+  });  // Log when component mounts to help debug session issues
   useEffect(() => {
-    console.log('📍 Location Analyzer page loaded successfully');
+    console.log('📍 Geschäftsreisen-Steuertool geladen');
+
+    // Load saved locations and tax settings from localStorage
+    const savedHomeLocation = loadHomeLocation();
+    const savedBusinessLocations = loadBusinessLocations();
+    const savedTaxSettings = loadTaxSettings();
+
+    setState(prev => ({
+      ...prev,
+      homeLocation: savedHomeLocation,
+      businessLocations: savedBusinessLocations,
+      costPerKm: savedTaxSettings.costPerKm
+    }));
   }, []);
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -152,7 +164,8 @@ export default function LocationAnalyzerPage() {
         targetYear: state.targetYear,
         businessLocations: state.businessLocations,
         homeLocation: state.homeLocation,
-        routeProfile: state.routeProfile
+        routeProfile: state.routeProfile,
+        costPerKm: state.costPerKm
       });
       console.log('🧠 Analyzer created');
 
@@ -341,15 +354,21 @@ export default function LocationAnalyzerPage() {
 
   // Location management functions
   const handleHomeLocationSelect = (result: GeocodeResult) => {
+    const newHomeLocation = {
+      name: `Home (${result.city || 'Custom'})`,
+      lat: result.lat,
+      lon: result.lon,
+      address: result.address
+    };
+
     setState(prev => ({
       ...prev,
-      homeLocation: {
-        name: `Home (${result.city || 'Custom'})`,
-        lat: result.lat,
-        lon: result.lon,
-        address: result.address
-      }
+      homeLocation: newHomeLocation
     }));
+
+    // Save to localStorage
+    saveHomeLocation(newHomeLocation);
+
     setLocationEdit(prev => ({ ...prev, editingHome: false }));
   };
 
@@ -359,24 +378,41 @@ export default function LocationAnalyzerPage() {
       lat: result.lat,
       lon: result.lon,
       radius_km: 5.0, // Default 5km radius
-      address: result.address
+      address: result.address,
+      travelReason: 'Geschäftstermin' // Default travel reason
     };
+
+    let updatedBusinessLocations: RelevantLocation[];
 
     if (locationEdit.editingBusinessLocationIndex !== null) {
       // Edit existing location
-      setState(prev => ({
-        ...prev,
-        businessLocations: prev.businessLocations.map((loc, index) =>
+      setState(prev => {
+        updatedBusinessLocations = prev.businessLocations.map((loc, index) =>
           index === locationEdit.editingBusinessLocationIndex ? newLocation : loc
-        )
-      }));
+        );
+        return {
+          ...prev,
+          businessLocations: updatedBusinessLocations
+        };
+      });
     } else {
       // Add new location
-      setState(prev => ({
-        ...prev,
-        businessLocations: [...prev.businessLocations, newLocation]
-      }));
+      setState(prev => {
+        updatedBusinessLocations = [...prev.businessLocations, newLocation];
+        return {
+          ...prev,
+          businessLocations: updatedBusinessLocations
+        };
+      });
     }
+
+    // Save to localStorage
+    setTimeout(() => {
+      setState(prev => {
+        saveBusinessLocations(prev.businessLocations);
+        return prev;
+      });
+    }, 0);
 
     setLocationEdit(prev => ({
       ...prev,
@@ -387,27 +423,59 @@ export default function LocationAnalyzerPage() {
   };
 
   const removeBusinessLocation = (index: number) => {
-    setState(prev => ({
-      ...prev,
-      businessLocations: prev.businessLocations.filter((_, i) => i !== index)
-    }));
+    setState(prev => {
+      const updatedBusinessLocations = prev.businessLocations.filter((_, i) => i !== index);
+      // Save to localStorage
+      saveBusinessLocations(updatedBusinessLocations);
+      return {
+        ...prev,
+        businessLocations: updatedBusinessLocations
+      };
+    });
   };
 
   const updateBusinessLocationRadius = (index: number, radius: number) => {
-    setState(prev => ({
-      ...prev,
-      businessLocations: prev.businessLocations.map((loc, i) =>
+    setState(prev => {
+      const updatedBusinessLocations = prev.businessLocations.map((loc, i) =>
         i === index ? { ...loc, radius_km: radius } : loc
-      )
-    }));
+      );
+      // Save to localStorage
+      saveBusinessLocations(updatedBusinessLocations);
+      return {
+        ...prev,
+        businessLocations: updatedBusinessLocations
+      };
+    });
+  };
+
+  const updateBusinessLocationTravelReason = (index: number, reason: string) => {
+    setState(prev => {
+      const updatedBusinessLocations = prev.businessLocations.map((loc, i) =>
+        i === index ? { ...loc, travelReason: reason } : loc
+      );
+      // Save to localStorage
+      saveBusinessLocations(updatedBusinessLocations);
+      return {
+        ...prev,
+        businessLocations: updatedBusinessLocations
+      };
+    });
   };
 
   const resetToDefaults = () => {
+    const defaultHome = DEFAULT_HOME_LOCATION;
+    const defaultBusiness: RelevantLocation[] = [];
+
     setState(prev => ({
       ...prev,
-      homeLocation: DEFAULT_HOME_LOCATION,
-      businessLocations: DEFAULT_BUSINESS_LOCATIONS
+      homeLocation: defaultHome,
+      businessLocations: defaultBusiness
     }));
+
+    // Save the reset values to localStorage
+    saveHomeLocation(defaultHome);
+    saveBusinessLocations(defaultBusiness);
+
     setLocationEdit({
       editingHome: false,
       addingBusinessLocation: false,
@@ -457,15 +525,26 @@ export default function LocationAnalyzerPage() {
     console.log('📁 Saved files changed');
   };
 
+  // Handle cost per km change
+  const handleCostPerKmChange = (costPerKm: number) => {
+    setState(prev => ({
+      ...prev,
+      costPerKm
+    }));
+
+    // Save to localStorage
+    saveTaxSettings({ costPerKm });
+  };
+
   return (
     <section className="flex-1 p-4 lg:p-8">
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Business Location Analyzer</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Geschäftsreisen-Steuertool</h1>
             <p className="text-gray-600">
-              Track visits to your business locations for travel documentation
+              Erfassen Sie Fahrten zu Geschäftsterminen für die Steuererklärung
             </p>
           </div>
           <MapPin className="h-8 w-8 text-orange-500" />
@@ -479,10 +558,12 @@ export default function LocationAnalyzerPage() {
               file={state.file}
               targetYear={state.targetYear}
               routeProfile={state.routeProfile}
+              costPerKm={state.costPerKm}
               error={state.error}
               onFileUpload={handleFileUpload}
               onYearChange={(year) => setState(prev => ({ ...prev, targetYear: year }))}
               onRouteProfileChange={(profile) => setState(prev => ({ ...prev, routeProfile: profile }))}
+              onCostPerKmChange={handleCostPerKmChange}
             />
 
             {/* Home Location */}
@@ -503,6 +584,7 @@ export default function LocationAnalyzerPage() {
               onSelectLocation={handleBusinessLocationSelect}
               onRemoveLocation={removeBusinessLocation}
               onUpdateLocationRadius={updateBusinessLocationRadius}
+              onUpdateTravelReason={updateBusinessLocationTravelReason}
               onResetToDefaults={resetToDefaults}
             />
           </div>

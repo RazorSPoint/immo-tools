@@ -13,6 +13,7 @@ export interface LocationAnalyzerState {
   error: string | null;
   selectedVisit: BusinessVisit | null;
   routeProfile: RouteProfile;
+  costPerKm: number; // Cost per kilometer in EUR for tax deduction
 }
 
 export interface FilterState {

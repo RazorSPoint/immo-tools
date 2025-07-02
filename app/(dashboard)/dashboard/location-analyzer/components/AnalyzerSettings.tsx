@@ -11,20 +11,24 @@ interface AnalyzerSettingsProps {
   file: File | null;
   targetYear: number;
   routeProfile: RouteProfile;
+  costPerKm: number;
   error: string | null;
   onFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onYearChange: (year: number) => void;
   onRouteProfileChange: (profile: RouteProfile) => void;
+  onCostPerKmChange: (costPerKm: number) => void;
 }
 
 export function AnalyzerSettings({
   file,
   targetYear,
   routeProfile,
+  costPerKm,
   error,
   onFileUpload,
   onYearChange,
-  onRouteProfileChange
+  onRouteProfileChange,
+  onCostPerKmChange
 }: AnalyzerSettingsProps) {
   return (
     <Card>
@@ -80,6 +84,24 @@ export function AnalyzerSettings({
           </select>
           <p className="text-xs text-gray-500 mt-1">
             Choose how distances are calculated using real routing data
+          </p>
+        </div>
+
+        <div>
+          <Label htmlFor="cost-per-km">Kosten pro Kilometer (EUR)</Label>
+          <Input
+            id="cost-per-km"
+            type="number"
+            step="0.01"
+            value={costPerKm}
+            onChange={(e) => onCostPerKmChange(parseFloat(e.target.value) || 0)}
+            className="mt-1"
+            min="0"
+            max="2"
+            placeholder="0.30"
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Standard-Pauschale für PKW: 0,30 EUR/km (steuerlich absetzbar)
           </p>
         </div>
 

@@ -13,6 +13,7 @@ export interface RelevantLocation {
   lon: number;
   radius_km: number;
   address: string;
+  travelReason?: string; // Reason for business travel (for tax reporting)
 }
 
 export interface HomeLocation extends Coordinates {
@@ -28,6 +29,8 @@ export interface BusinessVisit {
   routeDistanceKm?: number; // Actual route distance (if calculated)
   routeDurationMinutes?: number; // Route duration in minutes
   routeProfile?: string; // Route type used for calculation
+  travelReason?: string; // Reason for this business travel
+  taxDeductibleCosts?: number; // Calculated tax deductible costs in EUR
 }
 
 export interface TimelineSegment {
@@ -129,7 +132,14 @@ export function findMatchingBusinessLocation(
 ): RelevantLocation | null {
   for (const location of locations) {
     const dist = haversine(location.lat, location.lon, lat, lon);
+
+    // Add debug logging for Leipzig specifically
+    if (location.name === 'Leipzig') {
+      console.log(`🔍 Checking Leipzig: distance ${dist.toFixed(2)}km vs radius ${location.radius_km}km for coords ${lat}, ${lon}`);
+    }
+
     if (dist <= location.radius_km) {
+      console.log(`✅ Match found: ${location.name} (${dist.toFixed(2)}km <= ${location.radius_km}km)`);
       return location;
     }
   }

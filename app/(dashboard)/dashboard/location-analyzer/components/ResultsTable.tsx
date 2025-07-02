@@ -61,24 +61,30 @@ export function ResultsTable({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="text-center p-4 bg-orange-50 rounded-lg">
               <div className="text-2xl font-bold text-orange-600">
                 {results.length}
               </div>
-              <div className="text-sm text-gray-600">Business Visits</div>
+              <div className="text-sm text-gray-600">Geschäftsreisen</div>
             </div>
             <div className="text-center p-4 bg-blue-50 rounded-lg">
               <div className="text-2xl font-bold text-blue-600">
                 {results.reduce((sum, visit) => sum + visit.distanceKm, 0).toFixed(0)}
               </div>
-              <div className="text-sm text-gray-600">Total Distance (km)</div>
+              <div className="text-sm text-gray-600">Gesamt-Kilometer</div>
             </div>
             <div className="text-center p-4 bg-green-50 rounded-lg">
               <div className="text-2xl font-bold text-green-600">
-                {(results.reduce((sum, visit) => sum + visit.distanceKm, 0) / results.length).toFixed(0)}
+                {results.length > 0 ? (results.reduce((sum, visit) => sum + visit.distanceKm, 0) / results.length).toFixed(0) : '0'}
               </div>
-              <div className="text-sm text-gray-600">Avg Distance (km)</div>
+              <div className="text-sm text-gray-600">Ø Entfernung (km)</div>
+            </div>
+            <div className="text-center p-4 bg-purple-50 rounded-lg">
+              <div className="text-2xl font-bold text-purple-600">
+                {results.reduce((sum, visit) => sum + (visit.taxDeductibleCosts || 0), 0).toFixed(2)} €
+              </div>
+              <div className="text-sm text-gray-600">Steuerlich absetzbar</div>
             </div>
           </div>
         </CardContent>
@@ -91,7 +97,7 @@ export function ResultsTable({
             <div>
               <CardTitle className="flex items-center gap-2">
                 <Calendar className="h-5 w-5" />
-                Business Visits ({filteredAndSortedResults.length}{results.length !== filteredAndSortedResults.length ? ` of ${results.length}` : ''})
+                Geschäftsreisen ({filteredAndSortedResults.length}{results.length !== filteredAndSortedResults.length ? ` von ${results.length}` : ''})
                 {getActiveFilterCount() > 0 && (
                   <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 ml-2">
                     {getActiveFilterCount()} filter{getActiveFilterCount() !== 1 ? 's' : ''} active
@@ -267,7 +273,7 @@ export function ResultsTable({
                       onClick={() => onSort('date')}
                       className="flex items-center gap-1 hover:text-blue-600"
                     >
-                      Date
+                      Datum
                       {sort.field === 'date' ? (
                         sort.direction === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
                       ) : (
@@ -280,7 +286,7 @@ export function ResultsTable({
                       onClick={() => onSort('businessLocation')}
                       className="flex items-center gap-1 hover:text-blue-600"
                     >
-                      Business Location
+                      Geschäftsort
                       {sort.field === 'businessLocation' ? (
                         sort.direction === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
                       ) : (
@@ -288,12 +294,13 @@ export function ResultsTable({
                       )}
                     </button>
                   </th>
+                  <th className="text-left p-3 font-medium">Reisegrund</th>
                   <th className="text-left p-3 font-medium">
                     <button
                       onClick={() => onSort('distance')}
                       className="flex items-center gap-1 hover:text-blue-600"
                     >
-                      Distance
+                      Entfernung (km)
                       {sort.field === 'distance' ? (
                         sort.direction === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
                       ) : (
@@ -301,20 +308,21 @@ export function ResultsTable({
                       )}
                     </button>
                   </th>
-                  <th className="text-left p-3 font-medium">Actions</th>
+                  <th className="text-left p-3 font-medium">Kosten (EUR)</th>
+                  <th className="text-left p-3 font-medium">Aktionen</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredAndSortedResults.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="p-8 text-center text-gray-500">
-                      No business visits found matching the current filters.
+                    <td colSpan={6} className="p-8 text-center text-gray-500">
+                      Keine Geschäftsreisen gefunden, die den aktuellen Filtern entsprechen.
                     </td>
                   </tr>
                 ) : (
                   filteredAndSortedResults.map((visit, index) => (
                     <tr key={index} className="border-b hover:bg-gray-50">
-                      <td className="p-3">{new Date(visit.date).toLocaleDateString()}</td>
+                      <td className="p-3">{new Date(visit.date).toLocaleDateString('de-DE')}</td>
                       <td className="p-3">
                         <div>
                           <div className="font-medium">{visit.businessLocation.name}</div>
@@ -322,8 +330,14 @@ export function ResultsTable({
                         </div>
                       </td>
                       <td className="p-3">
+                        <div className="text-sm">{visit.travelReason || 'Geschäftstermin'}</div>
+                      </td>
+                      <td className="p-3">
                         <div className="font-mono">{visit.distanceKm.toFixed(1)} km</div>
-                        <div className="text-xs text-gray-500">route distance</div>
+                        <div className="text-xs text-gray-500">Hin- und Rückfahrt: {(visit.distanceKm * 2).toFixed(1)} km</div>
+                      </td>
+                      <td className="p-3">
+                        <div className="font-mono">{(visit.taxDeductibleCosts || 0).toFixed(2)} €</div>
                       </td>
                       <td className="p-3">
                         <Button
@@ -333,7 +347,7 @@ export function ResultsTable({
                           className="flex items-center gap-2 bg-blue-50 hover:bg-blue-100 border-blue-200"
                         >
                           <Navigation className="h-4 w-4" />
-                          View Route
+                          Route anzeigen
                         </Button>
                       </td>
                     </tr>

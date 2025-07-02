@@ -50,6 +50,7 @@ export interface BusinessAnalyzerConfig {
   businessLocations: RelevantLocation[];
   homeLocation: HomeLocation;
   routeProfile?: RouteProfile; // Optional route profile for distance calculation
+  costPerKm?: number; // Cost per kilometer in EUR for tax deduction
 }
 
 export class BusinessLocationAnalyzer {
@@ -170,8 +171,15 @@ export class BusinessLocationAnalyzer {
     const visitedDates = new Set<string>();
 
     console.log('📍 Starting business location analysis...');
+    console.log('🎯 Target year:', this.config.targetYear);
+    console.log('🏢 Business locations to check:', this.config.businessLocations.map(loc => `${loc.name} (${loc.radius_km}km radius at ${loc.lat}, ${loc.lon})`));
 
     let segments: any[] = [];
+    let totalSegments = 0;
+    let segmentsWithCoordinates = 0;
+    let segmentsInTargetYear = 0;
+    let coordinatesChecked = 0;
+    let businessLocationMatches = 0;
 
     // Handle new Google Timeline format (semanticSegments)
     if (timelineData.semanticSegments && timelineData.semanticSegments.length > 0) {
@@ -195,12 +203,26 @@ export class BusinessLocationAnalyzer {
     console.log(`🔍 Processing ${segments.length} total segments`);
 
     for (const segment of segments) {
-      const coordinates = this.extractCoordinatesFromSegment(segment);
+      totalSegments++;
+
+      const coordinates = this.extractCoordinatesFromSegment(segment, totalSegments <= 5); // Debug first 5 segments
 
       if (coordinates.length === 0) continue;
 
+      segmentsWithCoordinates++;
+
+      // Check the date first to see if it's in our target year
+      const date = this.extractDateFromSegment(segment);
+      const isInTargetYear = date && this.isTargetYear(date);
+
+      if (date && isInTargetYear) {
+        segmentsInTargetYear++;
+      }
+
       // Check if any coordinate is within a business location
       for (const coord of coordinates) {
+        coordinatesChecked++;
+
         const matchingLocation = findMatchingBusinessLocation(
           coord.lat,
           coord.lon,
@@ -208,35 +230,55 @@ export class BusinessLocationAnalyzer {
         );
 
         if (matchingLocation) {
-          const date = this.extractDateFromSegment(segment);
+          businessLocationMatches++;
+          console.log(`🎯 Found location match: ${matchingLocation.name} at coordinates ${coord.lat}, ${coord.lon} on ${date || 'unknown date'}`);
 
-          if (date && this.isTargetYear(date) && !visitedDates.has(date)) {
+          if (date && isInTargetYear && !visitedDates.has(date)) {
             // Use cached distance instead of calculating each time
             const distanceFromHome = this.getCachedDistance(matchingLocation.name);
+
+            // Calculate tax deductible costs if cost per km is provided
+            const costPerKm = this.config.costPerKm || 0;
+            const taxDeductibleCosts = distanceFromHome * costPerKm * 2; // Round trip
 
             visits.push({
               date,
               businessLocation: matchingLocation,
               homeLocation: this.config.homeLocation,
-              distanceKm: distanceFromHome
+              distanceKm: distanceFromHome,
+              travelReason: matchingLocation.travelReason,
+              taxDeductibleCosts
             });
 
             visitedDates.add(date);
-            console.log(`✅ Found business visit: ${date} - ${matchingLocation.name} (${distanceFromHome.toFixed(2)} km)`);
+            console.log(`✅ Added business visit: ${date} - ${matchingLocation.name} (${distanceFromHome.toFixed(2)} km)`);
+          } else if (date && !isInTargetYear) {
+            console.log(`📅 Skipping visit (wrong year): ${date} - ${matchingLocation.name} (target: ${this.config.targetYear})`);
+          } else if (!date) {
+            console.log(`📅 Skipping visit (no date): ${matchingLocation.name}`);
+          } else if (visitedDates.has(date)) {
+            console.log(`📅 Skipping visit (duplicate date): ${date} - ${matchingLocation.name}`);
           }
           break; // Stop checking other coordinates for this segment
         }
       }
     }
 
-    console.log(`📊 Analysis complete: ${visits.length} business visits found`);
+    console.log(`📊 Analysis Statistics:`);
+    console.log(`   Total segments: ${totalSegments}`);
+    console.log(`   Segments with coordinates: ${segmentsWithCoordinates}`);
+    console.log(`   Segments in target year: ${segmentsInTargetYear}`);
+    console.log(`   Coordinates checked: ${coordinatesChecked}`);
+    console.log(`   Business location matches: ${businessLocationMatches}`);
+    console.log(`   Final business visits found: ${visits.length}`);
+
     return visits.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }
 
   /**
    * Extract coordinates from a timeline segment
    */
-  private extractCoordinatesFromSegment(segment: any): Array<{lat: number, lon: number}> {
+  private extractCoordinatesFromSegment(segment: any, debug: boolean = false): Array<{lat: number, lon: number}> {
     const coords: Array<{lat: number, lon: number}> = [];
 
     // Check visit location (visit.topCandidate.placeLocation.latLng)
@@ -244,7 +286,7 @@ export class BusinessLocationAnalyzer {
       const parsed = parseCoordinateString(segment.visit.topCandidate.placeLocation.latLng);
       if (parsed) {
         coords.push(parsed);
-        console.log(`📍 Found visit coordinate: ${segment.visit.topCandidate.placeLocation.latLng}`);
+        if (debug) console.log(`📍 Found visit coordinate: ${segment.visit.topCandidate.placeLocation.latLng} -> ${parsed.lat}, ${parsed.lon}`);
       }
     }
 
@@ -253,7 +295,7 @@ export class BusinessLocationAnalyzer {
       const parsed = parseCoordinateString(segment.activity.start.latLng);
       if (parsed) {
         coords.push(parsed);
-        console.log(`🚀 Found activity start: ${segment.activity.start.latLng}`);
+        if (debug) console.log(`🚀 Found activity start: ${segment.activity.start.latLng} -> ${parsed.lat}, ${parsed.lon}`);
       }
     }
 
@@ -261,7 +303,7 @@ export class BusinessLocationAnalyzer {
       const parsed = parseCoordinateString(segment.activity.end.latLng);
       if (parsed) {
         coords.push(parsed);
-        console.log(`🏁 Found activity end: ${segment.activity.end.latLng}`);
+        if (debug) console.log(`🏁 Found activity end: ${segment.activity.end.latLng} -> ${parsed.lat}, ${parsed.lon}`);
       }
     }
 
@@ -275,7 +317,7 @@ export class BusinessLocationAnalyzer {
           }
         }
       }
-      if (segment.timelinePath.length > 0) {
+      if (segment.timelinePath.length > 0 && debug) {
         console.log(`🛤️ Found ${segment.timelinePath.length} timeline path points`);
       }
     }
@@ -308,10 +350,17 @@ export class BusinessLocationAnalyzer {
 }
 
 /**
- * Export business visits to CSV format
+ * Export business visits to CSV format for German tax reporting
  */
 export function downloadCSV(visits: BusinessVisit[], filename: string): void {
-  const headers = ['Date', 'Business Location', 'Business Address', 'Distance from Home (km)'];
+  const headers = [
+    'Datum',
+    'Geschäftsort',
+    'Adresse',
+    'Reisegrund',
+    'Entfernung (km)',
+    'Steuerlich absetzbare Kosten (EUR)'
+  ];
 
   const csvContent = [
     headers.join(','),
@@ -319,7 +368,9 @@ export function downloadCSV(visits: BusinessVisit[], filename: string): void {
       visit.date,
       `"${visit.businessLocation.name}"`,
       `"${visit.businessLocation.address}"`,
-      visit.distanceKm.toFixed(2)
+      `"${visit.travelReason || 'Geschäftstermin'}"`,
+      visit.distanceKm.toFixed(2),
+      visit.taxDeductibleCosts ? visit.taxDeductibleCosts.toFixed(2) : '0.00'
     ].join(','))
   ].join('\n');
 
@@ -341,14 +392,16 @@ export function downloadCSV(visits: BusinessVisit[], filename: string): void {
  * Export business visits to Excel format
  */
 export function downloadExcel(visits: BusinessVisit[], filename: string): void {
-  // Prepare data for Excel
+  // Prepare data for Excel with German headers and tax information
   const worksheetData = [
-    ['Date', 'Business Location', 'Business Address', 'Distance from Home (km)'],
+    ['Datum', 'Geschäftsort', 'Adresse', 'Reisegrund', 'Entfernung (km)', 'Steuerlich absetzbare Kosten (EUR)'],
     ...visits.map(visit => [
       visit.date,
       visit.businessLocation.name,
       visit.businessLocation.address,
-      visit.distanceKm
+      visit.travelReason || 'Geschäftstermin',
+      visit.distanceKm,
+      visit.taxDeductibleCosts || 0
     ])
   ];
 
@@ -358,10 +411,12 @@ export function downloadExcel(visits: BusinessVisit[], filename: string): void {
 
   // Set column widths
   const columnWidths = [
-    { wch: 12 }, // Date
-    { wch: 25 }, // Business Location
-    { wch: 40 }, // Business Address
-    { wch: 20 }  // Distance
+    { wch: 12 }, // Datum
+    { wch: 25 }, // Geschäftsort
+    { wch: 40 }, // Adresse
+    { wch: 20 }, // Reisegrund
+    { wch: 15 }, // Entfernung
+    { wch: 20 }  // Kosten
   ];
   worksheet['!cols'] = columnWidths;
 
@@ -370,7 +425,7 @@ export function downloadExcel(visits: BusinessVisit[], filename: string): void {
   for (let col = headerRange.s.c; col <= headerRange.e.c; col++) {
     const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col });
     if (!worksheet[cellAddress]) continue;
-    
+
     worksheet[cellAddress].s = {
       font: { bold: true },
       fill: { fgColor: { rgb: "F3F4F6" } },
@@ -383,17 +438,25 @@ export function downloadExcel(visits: BusinessVisit[], filename: string): void {
     };
   }
 
-  // Format distance column as numbers with 2 decimal places
-  const distanceCol = 3; // 0-indexed
+  // Format distance and cost columns as numbers with 2 decimal places
+  const distanceCol = 4; // 0-indexed (Entfernung)
+  const costCol = 5; // 0-indexed (Kosten)
   for (let row = 1; row <= headerRange.e.r; row++) {
-    const cellAddress = XLSX.utils.encode_cell({ r: row, c: distanceCol });
-    if (worksheet[cellAddress]) {
-      worksheet[cellAddress].z = '0.00'; // Number format with 2 decimal places
+    // Distance column
+    const distanceCellAddress = XLSX.utils.encode_cell({ r: row, c: distanceCol });
+    if (worksheet[distanceCellAddress]) {
+      worksheet[distanceCellAddress].z = '0.00'; // Number format with 2 decimal places
+    }
+
+    // Cost column
+    const costCellAddress = XLSX.utils.encode_cell({ r: row, c: costCol });
+    if (worksheet[costCellAddress]) {
+      worksheet[costCellAddress].z = '0.00 "EUR"'; // Currency format
     }
   }
 
   // Add worksheet to workbook
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Business Visits');
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Geschäftsreisen');
 
   // Save the file
   XLSX.writeFile(workbook, filename);
